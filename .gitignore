@@ -1,6 +1,10 @@
 # Custom folders
 bin
 build
+
+# Cluster-specific output files
+*.sh.*
+
 # Prerequisites
 *.d
 
