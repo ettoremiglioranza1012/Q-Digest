@@ -1,7 +1,7 @@
 vpath %.c src
 vpath %.h include
 
-CC = gcc
+CC = mpicc
 CFLAGS = -I include
 
 BUILD_DIR = build
