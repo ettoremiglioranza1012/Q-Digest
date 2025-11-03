@@ -22,16 +22,6 @@ size_t log_2_ceil(size_t n) {
   return res + (is_pow2 ? 0 : 1);
 }
 
-/* Declare QDigestNode, the building block of the Data Structure */
-struct QDigestNode {
-  // initialize pointers to left, right and parent nodes
-  struct QDigestNode *left, *right, *parent;
-  size_t count;
-  // variables to store the upper and lower bound of the node.
-  // Range contained is [min, max], so that both bounds are included.
-  size_t lower_bound, upper_bound;
-};
-
 /* This function allocates memory for a node and initializes some of its
  * members. */
 struct QDigestNode *create_node(size_t lower_bound, size_t upper_bound) {
@@ -51,16 +41,6 @@ struct QDigestNode *create_node(size_t lower_bound, size_t upper_bound) {
 
 /* This function deletes a node and frees the memory that was allocated to it */
 void delete_node(struct QDigestNode *n) { free(n); }
-
-/* Declare QDigest structure */
-struct QDigest {
-  // pointer to the node representing the root
-  struct QDigestNode *root;
-
-  size_t num_nodes;
-  size_t N, K;
-  size_t num_inserts;
-};
 
 /* TODO: implement the create_q function similar to what done above */
 struct QDigest *create_q(struct QDigestNode *root, size_t num_nodes, size_t N,
@@ -388,4 +368,22 @@ char *to_string(struct QDigest *q) {
   char *buf = malloc(1000);
   sprintf(buf, "%lu %lu %lu %lu\n", q->N, q->K, r->lower_bound, r->upper_bound);
   size_t str_len = strlen(buf);
+  // TODO: finish implementing this, have a look at code I wrote to write
+  // strings to buffer using fgets
+}
+
+/*
+ * Merge two qdigests with q2 being the one that is merged into q1.
+ * Therefore, q2 is declared constant since it should not be modified
+ * */
+void merge(struct QDigest *q1, const struct QDigest *q2) {
+  // pick the maximum K between the two QDigests
+  const size_t max_k = (q1->K > q2->K) ? q1->K : q2->K;
+  const size_t max_upper_bound = (q1->root->upper_bound > q2->root->upper_bound)
+                                     ? q1->root->upper_bound
+                                     : q2->root->upper_bound;
+
+  struct QDigest *tmp = create_tmp_q(max_k, max_upper_bound);
+
+  // TODO: implement queue
 }

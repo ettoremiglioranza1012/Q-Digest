@@ -1,15 +1,19 @@
 vpath %.c src
 vpath %.h include
 
-CC = mpicc
+CC = gcc
 CFLAGS = -I include
 
 BUILD_DIR = build
 EXEC_DIR = bin
 
 all: $(EXEC_DIR)/main
+test-queue: $(EXEC_DIR)/queue
 
 .PHONY: clean clean-files-cluster
+
+$(EXEC_DIR)/queue: queue.c memory_utils.c | $(EXEC_DIR)
+	$(CC) $(CFLAGS) $^ -o $@
 
 $(EXEC_DIR)/%: $(BUILD_DIR)/%.o | $(EXEC_DIR)
 	$(CC) $(CFLAGS) $^ -o $@
