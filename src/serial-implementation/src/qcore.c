@@ -1,5 +1,6 @@
 #include "../include/qcore.h"
 #include "../include/memory_utils.h"
+#include "../include/queue.h"
 #include <assert.h>
 #include <stdbool.h>
 #include <stddef.h>
@@ -84,7 +85,8 @@ size_t node_and_sibling_count(struct QDigestNode *n) {
  *
  * Returns 'true' or 'false' depending on whether it deleted the node n from the
  * tree.
- * TODO: check if memory allocation logic is correct */
+ * TODO: check if memory allocation logic is correct
+ * */
 bool delete_node_if_needed(struct QDigest *q, struct QDigestNode *n, int level,
                            int l_max) {
   if (n->count == 0 && (!n->left && !n->right)) {
@@ -129,15 +131,16 @@ void compress(struct QDigest *q, struct QDigestNode *n, int level, int l_max,
 }
 
 /* TODO: implement print_tree */
-void print_tree() { ; }
+void print_tree(struct QDigest *q) {
+  printf("[TREE] num_nodes: %lu, (N, K): (%lu, %lu)\n", q->num_nodes, q->N,
+         q->K);
+}
 
 /* TODO: implement swap function which should mirror the std::swap from C++ */
-void swap_q(struct QDigest *q1, struct QDigest *q2) {
-  struct QDigest *tmp = xmalloc(sizeof(struct QDigest));
-  tmp = q1;
-  q1 = q2;
-  q2 = tmp;
-  free(tmp);
+void swap_q(struct QDigest **q1, struct QDigest **q2) {
+  struct QDigest *tmp = *q1;
+  *q1 = *q2;
+  *q2 = tmp;
 }
 
 void compress_if_needed(struct QDigest *q) {
@@ -270,7 +273,7 @@ void expand_tree(struct QDigest *q, size_t upper_bound) {
   struct QDigest *tmp = create_tmp_q(q->K, upper_bound);
 
   if (q->N == 0) {
-    swap_q(q, tmp);
+    swap_q(&q, &tmp);
     return;
   }
 
@@ -303,7 +306,7 @@ void expand_tree(struct QDigest *q, size_t upper_bound) {
   tmp->num_nodes += q->num_nodes;
   tmp->N = q->N;
 
-  swap_q(q, tmp);
+  swap_q(&q, &tmp);
 }
 
 /*
@@ -329,12 +332,17 @@ size_t postorder_by_rank(struct QDigestNode *n, size_t *curr_rank,
 
 /*
  * Perform a pre-order traversal of the tree and serialize all the
- * nodes with a non-zero count. Separates each node with a newline
- * (\n).
- *
- * */
-// TODO: implement this
-// void preorder_to_string(struct QDigestNode *n)
+ * nodes with a non-zero count. Separates each node with a newline (\n).
+ */
+void preorder_to_string(struct QDigestNode *n) {
+  if (n == NULL)
+    return;
+  if (n->count > 0) {
+    printf("%lu %lu %lu\n", n->lower_bound, n->upper_bound, n->count);
+  }
+  preorder_to_string(n->left);
+  preorder_to_string(n->right);
+}
 
 /*
  * Returns the approximate 100p'th percentile element in the
@@ -363,14 +371,25 @@ size_t percentile(struct QDigest *q, double p) {
  *
  * */
 char *to_string(struct QDigest *q) {
+
   struct QDigestNode *r = q->root;
-  // TODO: declare this 1000 with a macro so that it can be changed easily
-  char *buf = malloc(1000);
-  sprintf(buf, "%lu %lu %lu %lu\n", q->N, q->K, r->lower_bound, r->upper_bound);
-  size_t str_len = strlen(buf);
-  // TODO: finish implementing this, have a look at code I wrote to write
-  // strings to buffer using fgets
+  char *buf = xmalloc(1000);
+  int offset = 0;
+
+  sprintf(buf + offset, "%lu %lu %lu %lu\n", q->N, q->K, r->lower_bound,
+          r->upper_bound);
+  offset += strlen(buf) + 1;
+  // TODO: this is not writing to anything at the moment
+  // fix this so it writes to buf
+  preorder_to_string(q->root);
+  return buf;
 }
+
+/*
+ * Deserialize the tree from the serialized version in the string
+ * 'ser'. The serialized version is obtained by calling to_string()
+ * TODO: implement this */
+void from_string(char *ser);
 
 /*
  * Merge two qdigests with q2 being the one that is merged into q1.
@@ -384,6 +403,20 @@ void merge(struct QDigest *q1, const struct QDigest *q2) {
                                      : q2->root->upper_bound;
 
   struct QDigest *tmp = create_tmp_q(max_k, max_upper_bound);
-
-  // TODO: implement queue
+  struct queue *qu = create_queue();
+  push(qu, create_queue_node(q1->root));
+  push(qu, create_queue_node(q2->root));
+  while (!is_empty(qu)) {
+    struct QDigestNode *n = front(qu);
+    pop(qu);
+    if (n->left) {
+      push(qu, create_queue_node(n->left));
+    }
+    if (n->right) {
+      push(qu, create_queue_node(n->right));
+    }
+    insert_node(tmp, n);
+  }
+  compress_if_needed(tmp);
+  swap_q(&q1, &tmp);
 }
