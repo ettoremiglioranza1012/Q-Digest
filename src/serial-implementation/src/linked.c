@@ -4,7 +4,7 @@
 #include <stdlib.h>
 
 /* This function is to be used every time a new ListNode is to be created*/
-struct ListNode *create_linked_node(LLItem value, struct ListNode *n) {
+struct ListNode *create_linked_node(LLItem value) {
   struct ListNode *s;
   s = malloc(sizeof(struct ListNode));
   if (s == NULL) {
@@ -12,7 +12,7 @@ struct ListNode *create_linked_node(LLItem value, struct ListNode *n) {
     exit(EXIT_FAILURE);
   }
   s->val = value;
-  s->next = n;
+  s->next = NULL;
 
   return s;
 }
@@ -31,7 +31,7 @@ struct LinkedList *create_linked_list(void) {
   return list;
 }
 
-void push(struct LinkedList *list, struct ListNode *n) {
+void LLpush(struct LinkedList *list, struct ListNode *n) {
   n->next = NULL; // always terminate the list
 
   if (list->len == 0) {
@@ -49,17 +49,21 @@ void push(struct LinkedList *list, struct ListNode *n) {
  * ListNodes*/
 void read_list(struct LinkedList *list) {
   struct ListNode *n = list->head;
+  printf("Linked list values are reported below:\n");
   while (n != NULL) {
-    printf("%d\n", n->val);
+    printf(" %lu ->", n->val);
     n = n->next;
   }
+  printf(" END\n");
 }
 
 bool is_empty_list(struct LinkedList *list) { return list->len == 0; }
 
-LLItem pop(struct LinkedList *list) {
+size_t get_length(struct LinkedList *list) { return list->len; }
+
+LLItem LLpop(struct LinkedList *list) {
   if (is_empty_list(list)) {
-    fprintf(stderr, "Nothing to pop in linked list. Aborting...\n");
+    fprintf(stderr, "Nothing to LLpop in linked list. Aborting...\n");
     exit(EXIT_FAILURE);
   }
 
@@ -88,4 +92,29 @@ LLItem pop(struct LinkedList *list) {
   return res;
 }
 
-LLItem find_value(struct LinkedList *list);
+// #define TEST
+#ifdef TEST
+int main(void) {
+  // initialize array
+  int len = 10;
+  struct LinkedList *l = create_linked_list();
+  struct ListNode *n;
+  for (int i = 0; i < len; i++) {
+    n = create_linked_node(i);
+    LLpush(l, n);
+  }
+  read_list(l);
+  // LLpop 8 values
+  LLpop(l);
+  LLpop(l);
+  LLpop(l);
+  LLpop(l);
+  LLpop(l);
+  LLpop(l);
+  LLpop(l);
+  LLpop(l);
+
+  read_list(l);
+  return 0;
+}
+#endif
