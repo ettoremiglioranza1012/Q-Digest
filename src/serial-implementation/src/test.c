@@ -4,6 +4,22 @@
 #include <stddef.h>
 #include <string.h>
 
+/* This is a helper function that is used by the qsort function */
+int comp(const void *a, const void *b) { return (*(int *)a - *(int *)b); }
+
+/* This is a function that shuffles a given array */
+void shuffle(DAItem *array, size_t n) {
+  if (n > 1) {
+    size_t i;
+    for (i = 0; i < n - 1; i++) {
+      size_t j = i + rand() / (RAND_MAX / (n - i) + 1);
+      int t = array[j];
+      array[j] = array[i];
+      array[i] = t;
+    }
+  }
+}
+
 /* This function prints the real vs computed percentiles according to QDigest
  * Args:
  *  double p: the percentile to compute (a value between 0 and 1, inclusive)
@@ -23,9 +39,10 @@ void test_poisson_distribution(int n, int k, int seed) {
   int number = 1;
   int repeat = 1;
   bool flipped = false;
-  Array *a = xmalloc(sizeof(Array));
-  init_array(a, 128);
-  for (; get_length(a) != n; ++number) {
+  Array *a = xmalloc(sizeof(Array)); // allocate memory for Array
+  init_array(a, 128); // initialize the Array with an initial capacity
+  for (; get_length(a) != n;
+       ++number) { // start loop to add numbers to dynamic array
     for (int i = 0; i < repeat && get_length(a) != n; ++i) {
       push_back(a, number); // add number to dynamic array
     }
@@ -42,22 +59,27 @@ void test_poisson_distribution(int n, int k, int seed) {
       repeat = 2;
   }
 
-  Array *b = xmalloc(sizeof(Array));
-  init_array(b, a->capacity);
-  memcpy(b->data, a->data, sizeof(DAItem) * a->size);
-  b->size = a->size;
+  Array *b = xmalloc(sizeof(Array)); // allocate memory for array b
+  init_array(b, a->capacity); // initialize array of b making sure it retains
+                              // the same capacity of a
+  memcpy(b->data, a->data, sizeof(DAItem) * a->size); // copy the data in a to b
+  b->size = a->size;                                  // copy size as well
 
-  // missing sort and random shuffle here
+  // missing sort and random shuffle
+  qsort(a->data, a->size, sizeof(a->data[0]), comp);
+  shuffle(b->data, b->size);
 
   // use the default parameter of for the upper bound 1 declared in the c++
   // constructor
   // printf("DEBUG: Before creating tree\n");
-  struct QDigest *q = create_tmp_q(k, 1);
+  struct QDigest *q = create_tmp_q(
+      k, 1); // create a QDigest structure using the shorter constructor
   // printf("DEBUG: After creating tree\n");
   for (size_t i = 0; i < get_length(b); ++i) {
-    insert(q, b->data[i], 1, true);
+    insert(q, b->data[i], 1, true); // insert data inside the QDigest
   }
 
+  /* Compare percentiles between true values and using the QDigest */
   compare_percentiles(0.01, a, q);
   compare_percentiles(0.02, a, q);
   compare_percentiles(0.03, a, q);
@@ -68,9 +90,10 @@ void test_poisson_distribution(int n, int k, int seed) {
 
 #ifdef TESTALL
 int main(void) {
-  const int K = 100;
+  // higher values of K -> higher accuracy, lesser compression
+  const int K = 5;
   int seed = 377;
-  int N = 65535;
+  int N = 1999911; // # of numbers generated
 
   test_poisson_distribution(N, K, seed);
   return 0;
