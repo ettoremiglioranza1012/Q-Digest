@@ -14,12 +14,14 @@
 static size_t log2Ceil(size_t n);
 static QDigestNode *qdigestnodeCreate(size_t lb, size_t ub);
 static void _insert(QDigest *qdig, size_t key, unsigned int count, bool try_compact, size_t S);
+static void expandTree(QDigest *qdig, size_t ub, size_t S);
 static void compress_if_needed(QDigest *qdig, size_t S);
-static void compress(QDigestNode *n, int level, int l_max, size_t nDivK);
-size_t node_and_sibbling_count(QDigestNode *n);
-bool delete_node_if_needed(QDigestNode *n, int level, int l_max);
-void expandTree(size_t ub);
-void _insert_node(const QDigestNode *n);
+static void compress(QDigest *qdig, QDigestNode *n, int level, int l_max, size_t nDivK);
+static bool delete_node_if_needed(QDigest *qdig, QDigestNode *qnode);
+static size_t node_and_sibbling_count(QDigestNode *qnode);
+// TO DO!
+
+static void _insert_node(const QDigestNode *n);
 void preorder_toString(QDigestNode *n, FILE *out); 
 
 
@@ -249,6 +251,7 @@ static void expandTree(QDigest *qdig, size_t ub, size_t S)
    tmp->N = qdig->N;
    // Finally, swap ownership of resources from the tmp new qdig and our main qdig
    swap(qdig, tmp);
+   qdigestRelease(tmp);
 }
 
 /* This function assess if there is the necessity to compact the 
@@ -281,13 +284,88 @@ static void compress_if_needed(QDigest *qdig, size_t S)
       const size_t nDivk = (qdig->N / qdig->k); 
       const size_t n = qdig->root->ub + 1;
       const int max_depth = log2Ceil(n);  
-      compress(qdig->root, 0, max_depth, nDivk);
+      compress(qdig, qdig->root, 0, max_depth, nDivk);
     }
 }
 
-/* This function ??? -> To DO! */
-static void compress(QDigestNode *n, int level, int l_max, size_t nDivK)
+/* This function perform compression. Specifically, ensure that no node is too
+ * small. i.e. apart from the root node, try to see if we can compress 
+ * counts from a set of 3 nodes (i.e. a node, its parent and its sibling)
+ * and promote them to the parent node.  
+ * 
+ * Important: each recursive step comproesses bottom-up:
+ * - Children are processed first, so by the time we reach this node,
+ *    its subtree is already minimized.
+ * - Internal nodes then act as temporary leaves for the next level.
+ * - If parent+child total count < nDivK, we merge them into parent.
+ * This wau each layer becomes the "Leaf Layer" if the next compression step. */
+static void compress(QDigest *qdig, QDigestNode *qnode, int level, int l_max, size_t nDivK)
 {
-   // To DO; 
+   if (!qnode) return; // Consider only existing node, used to stop post-order search
+   
+   // Post order search -> first the leafs, then the rest
+   compress(qdig, qnode->left, level+1, l_max, nDivK);
+   compress(qdig, qnode->right, level+1, l_max, nDivK);
+
+   if (level > 0) { // Skip the root
+      bool deleted = delete_node_if_needed(qdig, qnode); // Try to delete empty leaves
+      if (!deleted) { // Proceed only if the node wasn't just removed 
+         QDigestNode *par = qnode->parent;
+         // Next: if the node survived and its parent group is too light (< nDivK), merge
+         // that group into the parent
+         if (par && node_and_sibbling_count(par) < nDivK) { // Check the parent and its two children's total weight
+            /* A leaf reaches this point only if it wasn't deleted earlier (non zero count)
+             * An internal node reaches this point because it has at least once child
+             * and a parent, but the combined weight of that local trio is below the treshold. 
+             * Remember, the childs of the interla have been killed already at this point 
+             * by the post order traversing, thus we are evaluating the internal node like
+             * a leaf. */
+            par->count = node_and_sibbling_count(par); // Increment the count
+            // Then safely remove any empty child nodes
+            if (par->left) { 
+               par->left->count = 0;
+               delete_node_if_needed(qdig, par->left);
+               }
+            if (par->right) {
+               par->right->count = 0;
+               delete_node_if_needed(qdig, par->right);
+            }
+         } // if (!deleted && ...)
+      }  // if (level > 0)
+   }
+}
+
+/* This function delete node if the subsequent condition is met:
+ *    - A tree which has a no children has a count of 0;
+ * Return 'true' or 'false' depending on wheter it deleted the 
+ * node 'n' from the tree. */
+static bool delete_node_if_needed(QDigest *qdig, QDigestNode *qnode,)
+{
+   if ((!*qnode->left && !*qnode->right) && qnode->count == 0) {
+      qnode->parent->count += qnode->count;
+      if (qnode == qnode->parent->left) {
+         qnode->parent->left = NULL;
+      } else {
+         qnode->parent->right = NULL;
+      }
+      qdigestnodeRelease(qnode);
+      --qdig->num_nodes;
+      return true;
+   }
+   return false;
+}
+
+/* This function initialise the return count values as the count 
+ * of the node itself, which could be == 0 or != 0 as well. Then,
+ * it performs two checks, since in each case we perfom different actions.
+ * The two checks verify left and right node not NULL state and sum their 
+ * current count to the return count value.
+ * Function return the total count between node and its sibblings. */
+static size_t node_and_sibbling_count(QDigestNode *qnode)
+{
+   size_t ret = qnode->count;
+   if (qnode->left) { ret += n->left->count; }
+   if (qnode->right) { ret += n->right->count; }
+   return ret;
 }
 

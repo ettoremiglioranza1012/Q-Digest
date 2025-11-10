@@ -302,10 +302,11 @@ tmp->N = 1000
 
 ---
 
-## 📍 STEP 9: Swap Finale
+## 📍 STEP 9: Swap Finale e Release
 
 ```c
 qdig->swap(tmp);
+qdigestRelease(tmp);
 ```
 
 **Cosa succede:**
@@ -359,28 +360,3 @@ Memoria dopo ogni espansione:
 ```
 
 ---
-
-## 🎯 Riepilogo Finale
-
-**Il fix risolve:**
-
-- ✅ Memory leak dei nodi placeholder
-- ✅ Liberazione ricorsiva di tutto il sottoalbero
-- ✅ Gestione corretta dei metadati
-
-**L'ordine è critico:**
-```c
-// 1. Salva riferimento PRIMA di sovrascrivere
-old_subtree = par->left;
-
-// 2. Innesta nuovo albero
-par->left = qdig->root;
-
-// 3. Libera vecchio albero DOPO l'innesto
-qdigestnodeRelease(old_subtree);
-
-// 4. Aggiorna metadati
-tmp->num_nodes -= to_remove;
-```
-
-⚠️ **Se liberi PRIMA di innestare, perdi l'albero originale!** 💀
