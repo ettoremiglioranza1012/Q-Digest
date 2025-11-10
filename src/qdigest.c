@@ -3,6 +3,7 @@
 
 #include <stdbool.h> 
 #include <stdlib.h>
+#include <assert.h>
 #include "qdigest.h"
 
 
@@ -11,6 +12,7 @@
 /*=====================================*/ 
 
 static size_t log2Ceil(size_t n);
+static QDigestNode *qdigestnodeCreate(size_t lb, size_t ub);
 static void _insert(QDigest *qdig, size_t key, unsigned int count, bool try_compact, size_t S);
 static void compress_if_needed(QDigest *qdig, size_t S);
 static void compress(QDigestNode *n, int level, int l_max, size_t nDivK);
@@ -27,16 +29,16 @@ void preorder_toString(QDigestNode *n, FILE *out);
  
 /* This function allocate memory space for QDigest Data Structure 
  * and return a pointer to this memory space */
-QdigestNode *qdigestCreate(size_t lb, size_t ub) 
+QdigestNode *qdigestCreate(size_t k, size_t ub) 
 {
    struct QDigest *qdig;
    if ((qdig = malloc(sizeof(*qdig))) == NULL) {
       return NULL;
    }
-   qdig->root = NULL;
+   qdig->root = qdigestnodeCreate(0, ub);
    qdig->num_nodes = 1;
    qdig->N = 0;
-   qdig->k = lb;
+   qdig->k = k;
    qdig->num_inserts = 0; 
    return qdig;
 } 
@@ -101,6 +103,21 @@ static size_t log2Ceil(size_t n)
    return ret + (is_pow2 ? 0: 1);
 }
 
+/* This function create a QDigestNode data structure, init of its members
+ * and return a pointer to it. */
+static QDigestNode *qdigestnodeCreate(size_t _lb, size_t _ub)
+{
+   struct QDigestNode *qnode;
+   if (qnode = malloc(sizeof(*qnode)) == NULL) {
+      return NULL;
+   }
+   qnode->left = qnode->right = qnode->parent = NULL;
+   qnode->lb = _lb;
+   qnode->_ub = _ub;
+
+   return qnode;
+}
+
 /* This function implement the insertion of a key with a certain count
  * in a binary tree representing the QDigest data structure.
  *
@@ -139,17 +156,99 @@ static void _insert(
     bool try_compact,
     size_t S)
 {
-   if (key > qdig->root->ub) { expandTree(key); } 
-   /* To Implement */  
+   if (key > qdig->root->ub) { 
+      size_t new_ub_plus_one = 1 << log2Ceil(key); // next power of 2 not minor of key
+                                                   // in other words, new ub' for key that is a power of 2;
+                                                   // Useful to preserve binary tree structure.
+      if (this->root->ub + 1 == new_ub_plus_one) {
+         // Handling the limit case of ub + 1 == new_ub_plus_one:
+         // if the new_ub is old_ub + 1, to avoid not necessary tree expansion
+         // we double the new_ub granting more future space and reducting
+         // number of future expansion. 
+         new_ub_plus_one *= 2;
+      }
+      expandTree(qdig*, new_ub_plus_one, S); // keep in mind we are passing [new_ub + 1] ~ exclusive upper bound!
+   } 
+   size_t lb = 0;
+   size_t = ub = qdig->root->ub; 
+   QDigestNode *prev = qdig->root; // Instantiating prev node ptr as qdig root
+   QDigestNode *curr = prev; // Instantiating curr node ptr to point to prev
+   while (lb != ub) {
+      size_t mid = lb + (ub - lb) / 2;
+      prev = curr; // Update prev to point to what curr is pointing to (Useful for 2nd iteration and on)
+      if (key <= mid) {
+         // Go left
+         if (!curr->left) {
+            prev->left = qdigestnodeCreate(lb, mid); // Create new sibling node
+            prev->left->parent = prev; // Update parent node ptr of the new sibling node
+            ++qdig->num_nodes; // Update count of nodes in QDigest Struct
+         }
+         curr = prev->left; // Update current node ptr
+         ub = mid; // Update ub for left part
+         // Keep going down if lb != new_ub === mid;
+      } else {
+         // Go right
+         assert(mid + 1 <= ub);
+         if (!curr->right) {
+            prev->right = qdigestnodeCreate(mid, ub);
+            prev->right->parent = prev;
+            ++qdig->num_nodes;
+         }
+         curr = prev->right;
+         lb = mid + 1; // else is evaluating key > mid, so we restart from mid + 1;
+         // Keep going
+      }
+   } // while()
+   curr->count += count; // Increase count of the leaf node
+   qdig->N += count;  // Increase overl count
    if (try_compact) compress_if_needed(*qdig);
 }
 
 /* This function is called when we want to insert a new key value  
  * in the current QDigest data structure, but the key value > ub. 
- * Thus, we expand the tree to [lb, ub'= key]. */ 
-static void expandTree(size_t ub)
+ * Thus, we expand the tree to [lb, ub'= new_ub_plus_one-1]. Again, we assume ub 
+ * passed is exclusive, e.g. ub' = 12 means values rangin from 0 to 11,
+ * thus new upper bound will be key-1. */ 
+static void expandTree(QDigest *qdig, size_t ub, size_t S)
 {
-   // To DO 
+   assert((ub & (-ub)) == ub); // Check if ub is a power of two
+   assert(ub - 1 > qdig->root->ub); // Check if inclusive key (or 'new_ub_plus_one') is bigger than actual ub
+   --ub; // Switch from exclusive key to inclusive key ('new_ub_plus_one')
+   QDigest tmp = qdigestCreate(qdig->k, ub);
+
+   if (*qdig->N == 0) {
+      *swap(qdig, tmp);
+      return;
+   }
+
+   const bool try_compact = false;
+   /* While expanding the tree, we have created the tmp bigger tree
+    * where we have to innest the older tree */
+   _insert(*tmp, *qdig->root->ub, 1, try_compact, S);
+
+   QDigestNode *n = tmp->root;
+   while (n->ub != *qdig->root->ub) {
+      n = n->left;
+   }
+   QDigestNode *par = n->parent;
+   int to_remove = 0;
+   while (n) {
+      n = n->right; ++to_remove;
+   }
+   // First: save the reference to the node is going to be freed
+   struct QDigestNode *old_subtree = par->left;
+   // Graft the original tree 
+   par->left = qdig->root;
+   par->left->parent = par;
+   qdig->root = NULL; 
+   // AFTER: release recursively the old temporary subtree
+   qdigestnodeRelease(tmp_tree);
+   // Update metadata regarding new grafted tree
+   tmp->num_nodes -= to_remove;
+   tmp->num_nodes += qdig->num_nodes;
+   tmp->N = qdig->N;
+   // Finally, swap ownership of resources from the tmp new qdig and our main qdig
+   swap(qdig, tmp);
 }
 
 /* This function assess if there is the necessity to compact the 
@@ -186,6 +285,7 @@ static void compress_if_needed(QDigest *qdig, size_t S)
     }
 }
 
+/* This function ??? -> To DO! */
 static void compress(QDigestNode *n, int level, int l_max, size_t nDivK)
 {
    // To DO; 

@@ -21,7 +21,7 @@ typedef struct QDigest {
 } QDigest;
 
 /* QDigest related external linked functions (visible to the linker) */
-QDigest *qdigestCreate(size_t _k, size_t ub = 1);
+QDigest *qdigestCreate(size_t _k, size_t ub);
 void qdigestRelease(QDigest *p);
 void swap(QDigest* src, QDigest *other);
 void insert(size_t key, unsigned int count, size_t S);
