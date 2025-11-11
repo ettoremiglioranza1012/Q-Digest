@@ -4,6 +4,8 @@
 #include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
+#include <limits.h>
+
 
 /* This is a helper function that is used by the qsort function */
 int comp(const void *a, const void *b) { return (*(int *)a - *(int *)b); }
@@ -194,7 +196,7 @@ int main(void) {
   // higher values of K -> higher accuracy, lesser compression
   const int K = 20;
   int seed = 377;
-  int N = 1999911; // # of numbers generated
+  int N = UINT32_MAX-1; // # of numbers generated
 
   test_poisson_distribution(N, K, seed);
   test_geometric_distribution(N, K, seed);
