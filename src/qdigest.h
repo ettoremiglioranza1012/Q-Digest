@@ -23,16 +23,12 @@ typedef struct QDigest {
 /* QDigest related external linked functions (visible to the linker) */
 QDigest *qdigestCreate(size_t _k, size_t ub);
 void qdigestRelease(QDigest *p);
-void swap(QDigest* src, QDigest *other);
-void insert(size_t key, unsigned int count, size_t S);
-size_t size(void);
-bool empty(void);
-double compression_ratio();
-size_t percentile(double p); 
-char* toString();
-void fromString(const char *ser);
+void swap(QDigest *src, QDigest *other);
+void insert(QDigest *qdig, size_t key, unsigned int count, size_t S);
+size_t size(QDigest *qdig);
+bool empty(QDigest *qdig);
+double compression_ratio(QDigest *qdig);
+size_t percentile(QDigest *qdig, double p); 
 void QDigest_add(QDigest *src, const QDigest *other);
-void printTree(FILE *out);
-void QDigest_print(FILE *out, const QDigest *digest)
 
 #endif /* __QDIGEST_H__ */ 

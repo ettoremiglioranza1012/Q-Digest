@@ -4,6 +4,7 @@
 #include <stdbool.h> 
 #include <stdlib.h>
 #include <assert.h>
+#include <math.h>
 #include "qdigest.h"
 
 
@@ -13,12 +14,14 @@
 
 static size_t log2Ceil(size_t n);
 static QDigestNode *qdigestnodeCreate(size_t lb, size_t ub);
+static void qdigestnodeRelease(QDigestNode *qnode);
 static void _insert(QDigest *qdig, size_t key, unsigned int count, bool try_compact, size_t S);
 static void expandTree(QDigest *qdig, size_t ub, size_t S);
 static void compress_if_needed(QDigest *qdig, size_t S);
 static void compress(QDigest *qdig, QDigestNode *n, int level, int l_max, size_t nDivK);
 static bool delete_node_if_needed(QDigest *qdig, QDigestNode *qnode);
 static size_t node_and_sibbling_count(QDigestNode *qnode);
+static size_t postorder_by_rank(QDigestNode *qnode, size_t *curr_rank, size_t req_rank);
 // TO DO!
 
 static void _insert_node(const QDigestNode *n);
@@ -31,7 +34,7 @@ void preorder_toString(QDigestNode *n, FILE *out);
  
 /* This function allocate memory space for QDigest Data Structure 
  * and return a pointer to this memory space */
-QdigestNode *qdigestCreate(size_t k, size_t ub) 
+QDigest *qdigestCreate(size_t k, size_t ub) 
 {
    struct QDigest *qdig;
    if ((qdig = malloc(sizeof(*qdig))) == NULL) {
@@ -44,17 +47,6 @@ QdigestNode *qdigestCreate(size_t k, size_t ub)
    qdig->num_inserts = 0; 
    return qdig;
 } 
-
-/* This function releases the memory allocated for 
- * each nodes of the Qdigest binary tree recursively */ 
-void qdigestnodeRelease(QDigestNode *qnode)
-{
-   if (!qnode) return;
-   qdigestnodeRelease(qnode->left);
-   qdigestnodeRelease(qnode->right);
-   free(qnode);
-   return; 
-}
 
 /* This function release allocated memory space for 
  * QDigest data structure */ 
@@ -70,14 +62,23 @@ void qdigestRelease(QDigest *qdig)
  * data structure with each other */ 
 void swap(QDigest *src, QDigest *other)
 {
-   /* Swap must be performed by using the reference to where
-    * pointers point to. */ 
-   QDigest tmp = *src;  // Creates a temporary QDigest structure and 
-                        // copies the contents of *src into it.
-   *src = *other;       // Copies the contents of *other into the location
-                        // *src points to.      
-   *other = tmp;        // Copies the saved contents from tmp into the 
-                        // location *other points to. 
+   QDigestNode *tmp_root = src->root;
+   src->root = other->root;
+   other->root = tmp_root;
+   
+   size_t tmp;
+   
+   tmp = src->num_nodes;
+   src->num_nodes = other->num_nodes;
+   other->num_nodes = tmp;
+   
+   tmp = src->N;
+   src->N = other->N;
+   other->N = tmp;
+   
+   tmp = src->k;
+   src->k = other->k;
+   other->k = tmp;   
 }
 
 /* This function inserts a key with a certain count in a binary tree 
@@ -87,7 +88,38 @@ void swap(QDigest *src, QDigest *other)
 void insert(QDigest *qdig, size_t key, unsigned int count, size_t S)
 {
    const bool try_compact = true;
-   _insert(*qdig, key, count, try_compact, S); 
+   _insert(qdig, key, count, try_compact, S); 
+}
+
+/* This function extracts the total number of counts 
+ * of a QDigest Tree and return it. */
+size_t size(QDigest *qdig)
+{
+   return qdig->N;
+}
+
+/* This function evaluates the emptiness of a QDigest tree
+ * and return true if the size is 0, false otherwise. */
+bool empty(QDigest *qdig)
+{
+   return (size(qdig) == 0);
+}
+
+/* This function return the compression ratio */
+double compression_ratio(QDigest *qdig)
+{
+   return (double)qdig->num_nodes/(double)qdig->N;
+}
+
+/* Returns the approximate 100p'th percentile element in the
+ * structure. i.e. passing in 0.7 will return the 70th percentile
+ * element (which is the 70th percentile element starting from the
+ * smallest element). */
+size_t percentile(QDigest *qdig, double p) {
+   // Calculate the Target Rank
+   size_t req_rank = (size_t)floor(qdig->N*p);
+   size_t curr_rank = 0;
+   return inorder_by_rank(qdig->root, &curr_rank, req_rank);
 }
 
 
@@ -115,9 +147,20 @@ static QDigestNode *qdigestnodeCreate(size_t _lb, size_t _ub)
    }
    qnode->left = qnode->right = qnode->parent = NULL;
    qnode->lb = _lb;
-   qnode->_ub = _ub;
+   qnode->ub = _ub;
 
    return qnode;
+}
+
+/* This function releases the memory allocated for 
+ * each nodes of the Qdigest binary tree recursively */ 
+static void qdigestnodeRelease(QDigestNode *qnode)
+{
+   if (!qnode) return;
+   qdigestnodeRelease(qnode->left);
+   qdigestnodeRelease(qnode->right);
+   free(qnode);
+   return; 
 }
 
 /* This function implement the insertion of a key with a certain count
@@ -162,7 +205,7 @@ static void _insert(
       size_t new_ub_plus_one = 1 << log2Ceil(key); // next power of 2 not minor of key
                                                    // in other words, new ub' for key that is a power of 2;
                                                    // Useful to preserve binary tree structure.
-      if (this->root->ub + 1 == new_ub_plus_one) {
+      if (qdig->root->ub + 1 == new_ub_plus_one) {
          // Handling the limit case of ub + 1 == new_ub_plus_one:
          // if the new_ub is old_ub + 1, to avoid not necessary tree expansion
          // we double the new_ub granting more future space and reducting
@@ -172,7 +215,7 @@ static void _insert(
       expandTree(qdig*, new_ub_plus_one, S); // keep in mind we are passing [new_ub + 1] ~ exclusive upper bound!
    } 
    size_t lb = 0;
-   size_t = ub = qdig->root->ub; 
+   size_t ub = qdig->root->ub; 
    QDigestNode *prev = qdig->root; // Instantiating prev node ptr as qdig root
    QDigestNode *curr = prev; // Instantiating curr node ptr to point to prev
    while (lb != ub) {
@@ -216,20 +259,20 @@ static void expandTree(QDigest *qdig, size_t ub, size_t S)
    assert((ub & (-ub)) == ub); // Check if ub is a power of two
    assert(ub - 1 > qdig->root->ub); // Check if inclusive key (or 'new_ub_plus_one') is bigger than actual ub
    --ub; // Switch from exclusive key to inclusive key ('new_ub_plus_one')
-   QDigest tmp = qdigestCreate(qdig->k, ub);
+   QDigest *tmp = qdigestCreate(qdig->k, ub);
 
-   if (*qdig->N == 0) {
-      *swap(qdig, tmp);
+   if (qdig->N == 0) {
+      swap(qdig, tmp);
       return;
    }
 
    const bool try_compact = false;
    /* While expanding the tree, we have created the tmp bigger tree
     * where we have to innest the older tree */
-   _insert(*tmp, *qdig->root->ub, 1, try_compact, S);
+   _insert(tmp, qdig->root->ub, 1, try_compact, S);
 
    QDigestNode *n = tmp->root;
-   while (n->ub != *qdig->root->ub) {
+   while (n->ub != qdig->root->ub) {
       n = n->left;
    }
    QDigestNode *par = n->parent;
@@ -244,7 +287,7 @@ static void expandTree(QDigest *qdig, size_t ub, size_t S)
    par->left->parent = par;
    qdig->root = NULL; 
    // AFTER: release recursively the old temporary subtree
-   qdigestnodeRelease(tmp_tree);
+   qdigestnodeRelease(tmp);
    // Update metadata regarding new grafted tree
    tmp->num_nodes -= to_remove;
    tmp->num_nodes += qdig->num_nodes;
@@ -339,9 +382,9 @@ static void compress(QDigest *qdig, QDigestNode *qnode, int level, int l_max, si
  *    - A tree which has a no children has a count of 0;
  * Return 'true' or 'false' depending on wheter it deleted the 
  * node 'n' from the tree. */
-static bool delete_node_if_needed(QDigest *qdig, QDigestNode *qnode,)
+static bool delete_node_if_needed(QDigest *qdig, QDigestNode *qnode)
 {
-   if ((!*qnode->left && !*qnode->right) && qnode->count == 0) {
+   if ((!qnode->left && !qnode->right) && qnode->count == 0) {
       qnode->parent->count += qnode->count;
       if (qnode == qnode->parent->left) {
          qnode->parent->left = NULL;
@@ -364,8 +407,22 @@ static bool delete_node_if_needed(QDigest *qdig, QDigestNode *qnode,)
 static size_t node_and_sibbling_count(QDigestNode *qnode)
 {
    size_t ret = qnode->count;
-   if (qnode->left) { ret += n->left->count; }
-   if (qnode->right) { ret += n->right->count; }
+   if (qnode->left) { ret += qnode->left->count; }
+   if (qnode->right) { ret += qnode->right->count; }
    return ret;
 }
 
+/* This function perfoms a inorder traversal of a binary tree using the 
+ * rank of the nodes to find the range it's looking for. */
+static size_t inorder_by_rank(QDigestNode *qnode, size_t *curr_rank, size_t req_rank)
+{
+   if (!qnode) return 0;
+   
+   size_t res_left = inorder_by_rank(qnode->left, curr_rank, req_rank);
+   if (res_left != 0) return res_left;
+   *curr_rank += qnode->count;
+   if (*curr_rank >= req_rank) 
+      return (qnode->lb + qnode->ub) / 2; 
+   
+   return inorder_by_rank(qnode->right, curr_rank, req_rank);
+}
