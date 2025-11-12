@@ -4,6 +4,7 @@ vpath %.h include
 CC = mpicc
 CFLAGS = -I include
 TESTFLAGS = -I include -DTEST
+TESTCOREFLAGS = -I include -DTESTCORE
 TESTALLFLAGS = -I include -DTESTALL -std=gnu99 -g -Wall
 
 BUILD_DIR = build
@@ -11,10 +12,10 @@ EXEC_DIR = bin
 
 all: $(EXEC_DIR)/main
 test-queue: $(EXEC_DIR)/queue
-test-linked: $(EXEC_DIR)/linked
 test-all: $(EXEC_DIR)/test
+test-core: $(EXEC_DIR)/test_core
 
-.PHONY: clean clean-files-cluster
+.PHONY: clean clean-files-cluster run-local-test
 
 $(EXEC_DIR)/test: test.c qcore.c dynamic_array.c memory_utils.c queue.c| $(EXEC_DIR)
 	$(CC) $(TESTALLFLAGS) $^ -o $@
@@ -22,8 +23,8 @@ $(EXEC_DIR)/test: test.c qcore.c dynamic_array.c memory_utils.c queue.c| $(EXEC_
 $(EXEC_DIR)/queue: queue.c memory_utils.c | $(EXEC_DIR)
 	$(CC) $(CFLAGS) $^ -o $@
 
-$(EXEC_DIR)/linked: linked.c | $(EXEC_DIR)
-	$(CC) $(TESTFLAGS) $^ -o $@
+$(EXEC_DIR)/test_core: test_qcore.c qcore.c dynamic_array.c memory_utils.c queue.c| $(EXEC_DIR)
+	$(CC) $(CFLAGS) $^ -o $@
 
 $(EXEC_DIR)/%: $(BUILD_DIR)/%.o | $(EXEC_DIR)
 	$(CC) $(CFLAGS) $^ -o $@
@@ -47,4 +48,4 @@ clean-files-cluster:
 
 # NOTE: ONLY FOR LOCAL DEVELOPMENT, DO NOT USE ON CLUSTER
 run-local-test:
-	mpirun -n 1 $(EXEC_DIR)/test
+	mpirun -n 1 $(EXEC_DIR)/test_core
