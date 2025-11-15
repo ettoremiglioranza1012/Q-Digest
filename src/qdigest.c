@@ -5,8 +5,10 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <math.h>
-#include "qdigest.h"
+#include "../include/qdigest.h"
+#include "../include/dequeue.h"
 
+#define MAX(a, b) (a > b ? a : b);
 
 /*=====================================*/ 
 /* Static private functions prototypes */
@@ -21,11 +23,8 @@ static void compress_if_needed(QDigest *qdig, size_t S);
 static void compress(QDigest *qdig, QDigestNode *n, int level, int l_max, size_t nDivK);
 static bool delete_node_if_needed(QDigest *qdig, QDigestNode *qnode);
 static size_t node_and_sibbling_count(QDigestNode *qnode);
-static size_t postorder_by_rank(QDigestNode *qnode, size_t *curr_rank, size_t req_rank);
-// TO DO!
-
-static void _insert_node(const QDigestNode *n);
-void preorder_toString(QDigestNode *n, FILE *out); 
+static size_t inorder_by_rank(QDigestNode *qnode, size_t *curr_rank, size_t req_rank);
+static void _insert_node(QDigest *qdig, const QDigestNode *n);
 
 
 /*======================================*/ 
@@ -78,7 +77,7 @@ void swap(QDigest *src, QDigest *other)
    
    tmp = src->k;
    src->k = other->k;
-   other->k = tmp;   
+   other->k = tmp; 
 }
 
 /* This function inserts a key with a certain count in a binary tree 
@@ -122,6 +121,35 @@ size_t percentile(QDigest *qdig, double p) {
    return inorder_by_rank(qdig->root, &curr_rank, req_rank);
 }
 
+/* This function merge */
+void merge(QDigest *src, QDigest const *other, size_t S)
+{
+   const size_t max_k = MAX(src->k, other->k);
+   const size_t max_ub = MAX(src->root->ub, other->root->ub);
+   QDigest *tmp = qdigestCreate(max_k, max_ub);
+
+   queue *nodesq = create_queue();
+   queueNode *nodesqNode_src = create_queue_node(src->root);
+   queueNode *nodesqNode_other = create_queue_node(other->root);
+   push(nodesq, nodesqNode_src);
+   push(nodesq, nodesqNode_other);
+   while (!is_empty(nodesq)) { // while(queue not empty)
+      Item qnode = pop(nodesq);
+      if (qnode->left) {
+         queueNode *nodesqNode_tmp_left = create_queue_node(qnode->left);
+         push(nodesq, nodesqNode_tmp_left);
+      } 
+      if (qnode->right) {
+         queueNode *nodesqNode_tmp_right = create_queue_node(qnode->right);
+         push(nodesq, nodesqNode_tmp_right);
+      }
+      _insert_node(tmp, qnode); 
+   }
+   compress_if_needed(tmp, S);
+   swap(src, tmp);
+   qdigestRelease(tmp);
+   release_queue(nodesq);  
+}
 
 /*======================================*/ 
 /* Static private functions declaration */ 
@@ -131,6 +159,8 @@ size_t percentile(QDigest *qdig, double p) {
  * Used to compute the binary tree depth. */ 
 static size_t log2Ceil(size_t n) 
 {  
+   // edge case 
+   if (n == 0) return 0;
    bool is_pow2 = (n & -n) == n;
    int ret = 0; 
    while (n > 1) { n /= 2; ++ret; }
@@ -142,7 +172,7 @@ static size_t log2Ceil(size_t n)
 static QDigestNode *qdigestnodeCreate(size_t _lb, size_t _ub)
 {
    struct QDigestNode *qnode;
-   if (qnode = malloc(sizeof(*qnode)) == NULL) {
+   if ((qnode = malloc(sizeof(*qnode))) == NULL)  {
       return NULL;
    }
    qnode->left = qnode->right = qnode->parent = NULL;
@@ -212,7 +242,7 @@ static void _insert(
          // number of future expansion. 
          new_ub_plus_one *= 2;
       }
-      expandTree(qdig*, new_ub_plus_one, S); // keep in mind we are passing [new_ub + 1] ~ exclusive upper bound!
+      expandTree(qdig, new_ub_plus_one, S); // keep in mind we are passing [new_ub + 1] ~ exclusive upper bound!
    } 
    size_t lb = 0;
    size_t ub = qdig->root->ub; 
@@ -246,7 +276,55 @@ static void _insert(
    } // while()
    curr->count += count; // Increase count of the leaf node
    qdig->N += count;  // Increase overl count
-   if (try_compact) compress_if_needed(*qdig);
+   if (try_compact) compress_if_needed(qdig, S);
+}
+
+/* This function implement the graft of a single node in the
+ * originary QDigest Tree involved.
+ * Expasion Check not requried since function is currently called
+ * from a merge function that passes:
+ *    - QDigest tree assumed to be created from the 
+ *      max_k and max_ub of two siblings QDigestTrees;
+ *    - QNode to be inserted assumed to come from src or other,
+ *      hence check for expansion of tree not required? 
+ * Original description:      
+     * Insert the equivalent of the values present in node 'n' into
+     * the current tree. This will either create new nodes along the
+     * way and then create the final node or will update the count in
+     * the destination node if that node is already present in the
+     * tree. No compaction is attempted after the new node is inserted
+     * since this function is assumed to be called by the
+     * deserialization routine.
+ * */
+static void _insert_node( QDigest *qdig, const QDigestNode *qnode)
+{
+   QDigestNode *prev = qdig->root;
+   QDigestNode *curr = prev;
+   while (curr->lb != qnode->lb || curr->ub != qnode->ub) {
+      size_t mid = curr->lb + (curr->ub-curr->lb) / 2;
+      prev = curr;  
+      if (qnode->ub <= mid) {
+         // go left
+         if (!prev->left) { // check actual left sibbling existence
+            prev->left = qdigestnodeCreate(qnode->lb, mid);
+            prev->left->parent = prev;
+            ++qdig->num_nodes;
+         }
+         curr = prev->left;
+      } else {
+         // go right
+         assert(mid + 1 <= curr->ub);
+         if (!prev->right) {
+            prev->right = qdigestnodeCreate(mid+1, curr->ub);
+            prev->right->parent = prev;
+            ++qdig->num_nodes;
+         }
+         curr = prev->right;
+      }
+   } /* while (curr->lb != qnode->lb OR curr->lb != qnode->ub) */   
+   assert(curr->lb == qnode->lb); 
+   curr->count += qnode->count;
+   qdig->N += qnode->count;
 }
 
 /* This function is called when we want to insert a new key value  
@@ -287,7 +365,7 @@ static void expandTree(QDigest *qdig, size_t ub, size_t S)
    par->left->parent = par;
    qdig->root = NULL; 
    // AFTER: release recursively the old temporary subtree
-   qdigestnodeRelease(tmp);
+   qdigestnodeRelease(old_subtree);
    // Update metadata regarding new grafted tree
    tmp->num_nodes -= to_remove;
    tmp->num_nodes += qdig->num_nodes;

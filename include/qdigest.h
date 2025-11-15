@@ -2,10 +2,11 @@
 #define __QDIGEST_H__ 
 
 #include <stdlib.h> 
+#include <stdbool.h>
 #include <stdio.h>
 
 typedef struct QDigestNode {
-   QDigestNode *left, *right, *parent;
+   struct QDigestNode *left, *right, *parent;
    size_t count; 
    size_t lb, ub; // Range is [lb..ub] (i.e. both inclusive)
                   // E.g. values ranging from 0-10, means the    
@@ -24,11 +25,10 @@ typedef struct QDigest {
 QDigest *qdigestCreate(size_t _k, size_t ub);
 void qdigestRelease(QDigest *p);
 void swap(QDigest *src, QDigest *other);
-void insert(QDigest *qdig, size_t key, unsigned int count, size_t S);
 size_t size(QDigest *qdig);
 bool empty(QDigest *qdig);
 double compression_ratio(QDigest *qdig);
-size_t percentile(QDigest *qdig, double p); 
-void QDigest_add(QDigest *src, const QDigest *other);
+size_t percentile(QDigest *qdig, double p);
+void merge(QDigest *src, QDigest const *other, size_t S); 
 
 #endif /* __QDIGEST_H__ */ 
