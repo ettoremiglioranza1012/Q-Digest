@@ -43,3 +43,28 @@ parsed to rebuild a specific q-digest.
 
 A possible alternative would be the creation of a *derived MPI Type*.
 This would contain the necessary info to rebuild the q-digest struct.
+
+Considering that most of the overhead in an MPI program is represented
+by the communication portion consisting of the message exchange among
+processes, this decision is expected to have a significant impact on
+the performance of the program as a whole. 
+
+On the one hand, passing a serialized string can streamline the communication
+process since passing an array of single bytes is usually better than 
+transmitting 64-bit pointers. On the other hand, there is a tradeoff
+since now the q-digest will have to be rebuilt (deserialized) from the
+string. This tradeoff should be evaluated strictly in the benchmarking
+section to determine if it is truly valuable to retain it as is or if
+this approach does not prove to be viable.
+
+## TODO
+In order to follow up with a possible solution to what discussed 
+[above](<README#Potential issues>) the following (experimental) steps
+can be taken.
+
+1. Implement a serialization for the q-digest and a related parser to
+allow the structure to be rebuilt in other processes by simply passing
+the string-serialized version.
+2. Implement a potential *MPI Derived Datatype* to transmit info about
+q-digest and pass it "as-is" to other processes.
+
