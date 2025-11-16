@@ -47,9 +47,12 @@ void insert_node(struct QDigest *q, const struct QDigestNode *n);
 void expand_tree(struct QDigest *q, size_t upper_bound);
 size_t postorder_by_rank(struct QDigestNode *n, size_t *curr_rank,
                          size_t req_rank);
-void preorder_to_string(struct QDigestNode *n);
-size_t percentile(struct QDigest *q, double p);
-char *to_string(struct QDigest *q);
-void from_string(char *ser);
 void merge(struct QDigest *q1, const struct QDigest *q2);
+size_t percentile(struct QDigest *q, double p);
+
+/* ================= SERIALIZATION FUNCTIONS =======================*/
+char *preorder_to_string(struct QDigestNode *n, char *buf);
+void to_string(struct QDigest *q, char *buf);
+struct QDigest *from_string(char *buf);
+
 #endif

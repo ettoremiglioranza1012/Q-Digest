@@ -14,6 +14,7 @@ all: $(EXEC_DIR)/main
 test-queue: $(EXEC_DIR)/queue
 test-all: $(EXEC_DIR)/test
 test-core: $(EXEC_DIR)/test_core
+test-serialization: $(EXEC_DIR)/test_serialization
 
 .PHONY: clean clean-files-cluster run-local-test
 
@@ -25,6 +26,10 @@ $(EXEC_DIR)/queue: queue.c memory_utils.c | $(EXEC_DIR)
 
 $(EXEC_DIR)/test_core: test_qcore.c qcore.c dynamic_array.c memory_utils.c queue.c| $(EXEC_DIR)
 	$(CC) $(TESTFLAGS) $^ -o $@
+
+$(EXEC_DIR)/test_serialization: qcore.c dynamic_array.c memory_utils.c queue.c| $(EXEC_DIR)
+	$(CC) $(TESTCOREFLAGS) $^ -o $@
+
 
 $(EXEC_DIR)/%: $(BUILD_DIR)/%.o | $(EXEC_DIR)
 	$(CC) $(CFLAGS) $^ -o $@
