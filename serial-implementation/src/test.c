@@ -2,9 +2,9 @@
  * GitHub repo:
  * https://github.com/dhruvbird/q-digest/tree/master/test.cpp */
 
-#include "../include/dynamic_array.h"
-#include "../include/memory_utils.h"
-#include "../include/qcore.h"
+#include "../../include/dynamic_array.h"
+#include "../../include/memory_utils.h"
+#include "../../include/qcore.h"
 #include <stddef.h>
 #include <stdlib.h>
 #include <string.h>

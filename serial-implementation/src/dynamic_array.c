@@ -1,4 +1,4 @@
-#include "../include/dynamic_array.h"
+#include "../../include/dynamic_array.h"
 
 void init_array(Array *a, size_t initial_capacity) {
   a->data = (DAItem *)xmalloc(initial_capacity * sizeof(DAItem));

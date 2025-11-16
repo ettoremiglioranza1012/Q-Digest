@@ -2,9 +2,9 @@
  * GitHub repo:
  * https://github.com/dhruvbird/q-digest/tree/master/qdigest.h */
 
-#include "../include/qcore.h"
-#include "../include/memory_utils.h"
-#include "../include/queue.h"
+#include "../../include/qcore.h"
+#include "../../include/memory_utils.h"
+#include "../../include/queue.h"
 #include <assert.h>
 #include <stdbool.h>
 #include <stddef.h>

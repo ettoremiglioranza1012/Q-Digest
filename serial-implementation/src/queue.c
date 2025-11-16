@@ -1,5 +1,5 @@
-#include "../include/queue.h"
-#include "../include/memory_utils.h"
+#include "../../include/queue.h"
+#include "../../include/memory_utils.h"
 #include <stdio.h>
 #include <stdlib.h>
 

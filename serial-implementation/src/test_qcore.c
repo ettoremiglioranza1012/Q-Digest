@@ -1,5 +1,5 @@
-#include "../include/qcore.h"
-#include "../include/queue.h"
+#include "../../include/qcore.h"
+#include "../../include/queue.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
