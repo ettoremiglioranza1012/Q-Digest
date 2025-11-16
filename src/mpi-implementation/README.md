@@ -34,7 +34,7 @@ process will then be in charge of merging the two q-digests and so on
 until a final q-digest containing data from all processes is available 
 back in the distributing process.
 
-### Potential issues {#potential-issues}
+### Potential issues
 
 It is still unclear how q-digests should be sent around processes.
 Probably, there will be the need to serialize each q-digest and implement
@@ -59,7 +59,7 @@ this approach does not prove to be viable.
 
 ## TODO
 In order to follow up with a possible solution to what discussed 
-[above]("#potential-issues") the following (experimental) steps
+[above](#potential-issues) the following (experimental) steps
 can be taken.
 
 1. Implement a serialization for the q-digest and a related parser to
