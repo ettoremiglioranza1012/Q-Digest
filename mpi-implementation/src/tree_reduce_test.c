@@ -2,14 +2,14 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "../include/treeReduce.h"
+#include "../include/tree_reduce.h"
 
 #define BUFFER_SIZE 1024
 #define LOWER_BOUND 0
 #define UPPER_BOUND 10
 
 
-void initialize(int rank, int *data, int n)
+void initialize_data_array(int rank, int *data, int n)
 {
     int i;
     srand(rank);
@@ -28,18 +28,18 @@ int main(void)
     MPI_Comm_size(MPI_COMM_WORLD, &comm_sz);
 
     // Init the random number array of data
-    initialize(rank, data, BUFFER_SIZE);
+    initialize_data_array(rank, data, BUFFER_SIZE);
 
     int local_n = BUFFER_SIZE/comm_sz;
 
     // Scatter the array around the nodes
-    Distribute_vector(data, local_n, rank, MPI_COMM_WORLD);
+    distribute_data_array(data, local_n, rank, MPI_COMM_WORLD);
 
     // From the data buffer create the q-digest
     struct QDigest *q = from_buff_to_q(); // To DO;
 
     // data get inserted into qdigest and then compressed, ecc...
-    TreeAllreduce(q, comm_sz, rank, MPI_COMM_WORLD);
+    tree_reduce(q, comm_sz, rank, MPI_COMM_WORLD);
     
     MPI_Finalize();
     return 0;

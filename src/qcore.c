@@ -434,7 +434,7 @@ void merge(struct QDigest *q1, const struct QDigest *q2) {
  * buffer, other wise we cause a buffer overflow.
  */
 char *preorder_to_string(struct QDigestNode *n, char *buf, size_t *length) {
-    int k;
+    int k = 0;
     if (!n) return buf;
     if (n->count > 0) {
         k = sprintf(buf, "%zu %zu %zu\n",
@@ -450,7 +450,7 @@ char *preorder_to_string(struct QDigestNode *n, char *buf, size_t *length) {
 }
 
 void to_string(struct QDigest *q, char *buf, size_t *length) {
-    int k;
+    int k = 0;
     *length = 0;
     struct QDigestNode *root = q->root;
     k = sprintf(buf, "%zu %zu %zu %zu\n",

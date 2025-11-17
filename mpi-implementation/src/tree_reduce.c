@@ -4,12 +4,12 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "../../include/qcore.h"
-#include "../include/treeReduce.h"
+#include "../include/tree_reduce.h"
 #include "../../include/memory_utils.h"
 
 #define DEFAULT_STR_BUFFER_SIZE 128
 
-void Distribute_vector(
+void distribute_data_array(
     int *sendbuf,
     int local_n,
     int n,
@@ -17,6 +17,7 @@ void Distribute_vector(
     MPI_Comm comm
 )
 {
+    // TO do; 
     int local_buf[local_n];
     if (rank == 0) {
         MPI_Scatter(sendbuf, local_n, MPI_INT, local_buf, local_n,
@@ -28,7 +29,7 @@ void Distribute_vector(
 }   /* Read_vector */
 
 
-void TreeAllreduce(
+void tree_reduce(
     struct QDigest *q,
     int comm_size,
     int rank,
@@ -37,6 +38,7 @@ void TreeAllreduce(
     
     // Reduce the number of nodes/processes to a power of 2
     // If 10 processes we reduce to 8 = 2^(num_of_layers)
+    // We will keep this example for the rest of the implementations
     int p = comm_size;
     int p2 = 1;
     while (p2 * 2 <= p) p2 *= 2;
@@ -47,7 +49,7 @@ void TreeAllreduce(
 
     /* REDUCE */
     if (orphans > 0) { // Check if there are any orphans.
-        // Oprhans are in the head, if we have two orphans, 
+        // Oprhans are in the head, if we have two orphans (from 10 to 8 procs), 
         // the orphans are odd process in region [0, 2*orphans]
         // We couple them with pair process,
         // thus we evaluate ([0,1],[2,3]) or rank < orphans*2
