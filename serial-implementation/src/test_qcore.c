@@ -139,11 +139,15 @@ void test_serialization(void) {
         insert(q1, i, 1, false);
     }
 
-    preorder_to_string(q1->root, buf);
-    printf("DEBUG preorder: buf content:\n%s\n", buf);
-    
-    to_string(q1, buf);
+     size_t buf_length = 0;
+    // NOTE: for the moment I've disabled this test suite since
+    // it interfers with the added feat for keeping count of buf length.
+    // preorder_to_string(q1->root, buf, &buf_length);
+    // printf("DEBUG preorder: buf content:\n%s\n", buf);
+    // printf("DEBUG: buf length:%zu\n", buf_length);
+    to_string(q1, buf, &buf_length);
     printf("DEBUG: buf content:\n%s\n", buf);
+    printf("DEBUG: buf length:%zu\n", buf_length);
     struct QDigest *q2 = from_string(buf);
 
     assert(q1->K == q2->K);

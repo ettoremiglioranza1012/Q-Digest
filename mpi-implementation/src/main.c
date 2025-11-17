@@ -49,7 +49,9 @@ int main(void) {
 
         // serialize
         char ser[1024];
-        to_string(q, ser);
+        size_t length = 0;
+        to_string(q, ser, &length);
+        printf("length of buf: %zu\n", length);
 
         // print serialization
         printf("=======\nSerialization from process %d\n=======\n%s",

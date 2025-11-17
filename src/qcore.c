@@ -428,29 +428,40 @@ void merge(struct QDigest *q1, const struct QDigest *q2) {
  * FIXED: changed function signature to ensure that pointer to buf would be
  * returned across recursive calls so that all nodes would avoid overwriting
  * the results of previous nodes.
+ * ADDED: function now keep count of the number of byte written, 
+ * aka string length before null termination character \0. 
+ * To ADD: check if QDigest serialized is small enough to be kept in the 
+ * buffer, other wise we cause a buffer overflow.
  */
-char *preorder_to_string(struct QDigestNode *n, char *buf) {
+char *preorder_to_string(struct QDigestNode *n, char *buf, size_t *length) {
+    int k;
     if (!n) return buf;
     if (n->count > 0) {
-        buf += sprintf(buf, "%zu %zu %zu\n",
+        k = sprintf(buf, "%zu %zu %zu\n",
                        n->lower_bound,
                        n->upper_bound,
                        n->count);
+        buf += k;
+        *length += k;
     }
-    buf = preorder_to_string(n->left, buf);
-    buf = preorder_to_string(n->right, buf);
+    buf = preorder_to_string(n->left, buf, length);
+    buf = preorder_to_string(n->right, buf, length);
     return buf;
 }
 
-void to_string(struct QDigest *q, char *buf) {
+void to_string(struct QDigest *q, char *buf, size_t *length) {
+    int k;
+    *length = 0;
     struct QDigestNode *root = q->root;
-    buf += sprintf(buf, "%zu %zu %zu %zu\n",
+    k = sprintf(buf, "%zu %zu %zu %zu\n",
                    q->N,
                    q->K,
                    root->lower_bound,
                    root->upper_bound);
+    buf += k;
+    *length += k;
 
-    buf = preorder_to_string(root, buf);
+    buf = preorder_to_string(root, buf, length);
 }
 
 /* Deserialize the tree from the serialized version in the string

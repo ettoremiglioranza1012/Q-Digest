@@ -115,8 +115,8 @@ void merge(struct QDigest *q1, const struct QDigest *q2);
 size_t percentile(struct QDigest *q, double p);
 
 /* ================= SERIALIZATION FUNCTIONS =======================*/
-char *preorder_to_string(struct QDigestNode *n, char *buf);
-void to_string(struct QDigest *q, char *buf);
+char *preorder_to_string(struct QDigestNode *n, char *buf, size_t *buf_length);
+void to_string(struct QDigest *q, char *buf, size_t *buf_length);
 struct QDigest *from_string(char *buf);
 
 #endif
