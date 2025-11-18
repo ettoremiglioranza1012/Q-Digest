@@ -1,3 +1,8 @@
+# Instruction to run first version of MPI
+ - "cd mpi-implementation"
+ - make clean -> make main-mpi
+ - make run-local-test 
+
 # MPI Implementation
 
 The first attempt to parallelize the algorithm is implemented using the
@@ -67,4 +72,6 @@ allow the structure to be rebuilt in other processes by simply passing
 the string-serialized version.
 2. Implement a potential *MPI Derived Datatype* to transmit info about
 q-digest and pass it "as-is" to other processes.
+
+
 
