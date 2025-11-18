@@ -115,6 +115,9 @@ void merge(struct QDigest *q1, const struct QDigest *q2);
 size_t percentile(struct QDigest *q, double p);
 
 /* ================= SERIALIZATION FUNCTIONS =======================*/
+size_t _digits(size_t value);
+size_t get_bytes_of_node(struct QDigestNode *n);
+size_t get_num_of_bytes(struct QDigest *q);
 char *preorder_to_string(struct QDigestNode *n, char *buf, size_t *buf_length);
 void to_string(struct QDigest *q, char *buf, size_t *buf_length);
 struct QDigest *from_string(char *buf);
