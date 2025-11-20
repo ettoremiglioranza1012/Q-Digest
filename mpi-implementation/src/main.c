@@ -10,9 +10,6 @@
 // also the size of the array (vector) that stores them in process 0
 #define NUMS 1024
 
-/* =========== FUNCTION PROTOTYPES ==================== */
-struct QDigest *_build_q_from_vector(int *a, int size);
-
 /* ============== MAIN FUNCTION ======================== */
 int main(void) 
 {
@@ -35,7 +32,8 @@ int main(void)
     MPI_Barrier(MPI_COMM_WORLD); // DEBUGGING 
 
     // From the data buffer create the q-digest
-    struct QDigest *q = _build_q_from_vector(local_buf, local_n); // To DO;
+    size_t upper_bound = _get_curr_upper_bound(local_buf, local_n);
+    struct QDigest *q = _build_q_from_vector(local_buf, local_n, upper_bound);
     printf("[rank %d] built q-digest, starting tree_reduce\n", rank);
     MPI_Barrier(MPI_COMM_WORLD); // DEBUGGING 
 
@@ -47,22 +45,4 @@ int main(void)
     MPI_Finalize();
     printf("Apparenly alla worked fine!\n"); // DEBUGGING 
     return 0;
-}
-
-/* ============== FUNCTION IMPLEMENTATIONS =============== */
-
-/* NOTE: helper functions are indicated with are preceded by 
- * an underscore (_) */
-
-/* This function creates a q-digest from a vector */
-struct QDigest *_build_q_from_vector(int *a, int size) {
-    /* FIXED: This portion of the code was causing a segfault
-     * due to the fact that when using an upper bound that is much
-     * smaller than the actual received number the q-digest might
-     * overflow internal nodes, causing a strange ranges in serialization. */
-    struct QDigest *q = create_tmp_q(5, NUMS-1);
-    for (int i = 0; i < size; i++) {
-        insert(q, a[i], 1, true);
-    }
-    return q;
 }

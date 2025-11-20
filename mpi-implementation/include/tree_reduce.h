@@ -46,6 +46,33 @@ void initialize_data_array(int rank, int *data, int n);
  */
 int *distribute_data_array(int *local_buf, int local_n, int rank, int buf_size, MPI_Comm comm);
 
+/**
+ *  @brief Compute the maximum value in a buffer segment.
+ *
+ *  Scans the first @p n entries of @p buf and returns the largest value found,
+ *  convenient for deriving an upper bound before constructing a digest.
+ *
+ *  @param buf Pointer to the integer buffer to inspect.
+ *  @param n   Number of elements from @p buf to consider.
+ *
+ *  @return The maximum value among the inspected elements.
+ */
+size_t _get_curr_upper_bound(int *buf, int n);
+
+/**
+ *  @brief Build a QDigest from an integer vector.
+ *
+ *  Allocates and initializes a QDigest sized for @p upper_bound, then inserts
+ *  the @p size values from @p a into it, returning the populated digest.
+ *
+ *  @param a           Pointer to the input array of integers.
+ *  @param size        Number of elements in @p a.
+ *  @param upper_bound Maximum value expected in @p a (used to size the digest).
+ *
+ *  @return Newly allocated QDigest containing all values from @p a.
+ */
+struct QDigest *_build_q_from_vector(int *a, int size, size_t upper_bound);
+
 
 /* ============== PARALLE Q-DIGEST FUNCTION =============== */
 /**
