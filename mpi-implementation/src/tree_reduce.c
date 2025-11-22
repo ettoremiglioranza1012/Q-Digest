@@ -44,22 +44,59 @@ struct QDigest *_build_q_from_vector(int *a, int size, size_t upper_bound) {
 }
 
 int *distribute_data_array(
+    int *src_values,
     int *local_buf,
+    int *counts,
+    int *displs,
     int local_n,
-    int rank,
+    int rank, 
     int buf_size,
+    bool use_src,
     MPI_Comm comm
 )
 {
     if (rank == 0)
     {
-        int buf[buf_size]; // TO evaluate switch to xmalloc()
-        _initialize_data_array(rank, buf, buf_size);
-        MPI_Scatter(buf, local_n, MPI_INT, local_buf, local_n,
-            MPI_INT, 0, comm);
+        if (src_values && use_src) {
+            MPI_Scatterv(
+                src_values,   // sendbuf (root routine)
+                counts,     
+                displs,     
+                MPI_INT,
+                local_buf,  
+                local_n,    
+                MPI_INT,
+                0,          // root
+                comm
+            );
+        } else {
+            int *buf = xmalloc(buf_size*sizeof(int));
+            _initialize_data_array(rank, buf, buf_size);
+            MPI_Scatterv(
+                buf,   // sendbuf (root routine)
+                counts,     
+                displs,     
+                MPI_INT,
+                local_buf,  
+                local_n,    
+                MPI_INT,
+                0,          // root
+                MPI_COMM_WORLD
+            );
+            free(buf);
+        }
     } else {
-        MPI_Scatter(NULL, local_n, MPI_INT, local_buf, local_n,
-            MPI_INT, 0, comm);
+        MPI_Scatterv(
+            NULL,   // recvbuff (root routine)
+            counts,     
+            displs,     
+            MPI_INT,
+            local_buf,  
+            local_n,    
+            MPI_INT,
+            0,          // root
+            MPI_COMM_WORLD
+            );
     }
     return local_buf;
 }   /* Read_vector */

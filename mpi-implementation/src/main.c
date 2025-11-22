@@ -3,12 +3,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "../include/tree_reduce.h"
+#include "../../include/memory_utils.h"
 
 /* NOTE: These are test parameters and should be removed in 
  * favor of proper user-based I/O */
 // how many numbers to generate
 // also the size of the array (vector) that stores them in process 0
-#define NUMS 1024
+#define DATA_SIZE 1024
 
 /* ============== MAIN FUNCTION ======================== */
 int main(void) 
@@ -19,15 +20,38 @@ int main(void)
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &comm_sz);
 
-    int local_n = NUMS/comm_sz;
-    int local_buf[local_n];
+    /* Handling possible rest division in n/comm_sz */
+    int base = DATA_SIZE/comm_sz;
+    int rest = DATA_SIZE % comm_sz;
+    int *counts = xmalloc(comm_sz*sizeof(int));
+    int *displs = xmalloc(comm_sz*sizeof(int));
+    int offset = 0;
+
+    for (int i = 0; i < comm_sz; i++) {
+        counts[i] = base + (i < rest ? 1 : 0);
+        displs[i] = offset;
+        offset += counts[i];
+    }
+
+    int local_n = counts[rank];
+    int *local_buf = xmalloc(local_n*sizeof(int));
 
     // Scatter the array around the nodes
     if (rank == 0) {
         printf("[rank %d] starting data distribution\n", rank);
     }
     MPI_Barrier(MPI_COMM_WORLD); // DEBUGGING
-    distribute_data_array(local_buf, local_n, rank, NUMS, MPI_COMM_WORLD);
+    distribute_data_array(
+        NULL, 
+        local_buf,
+        counts,
+        displs,
+        local_n,
+        rank,
+        DATA_SIZE,
+        0,
+        MPI_COMM_WORLD
+    );
     printf("[rank %d] finished scatter, building local digest\n", rank);
     MPI_Barrier(MPI_COMM_WORLD); // DEBUGGING 
 

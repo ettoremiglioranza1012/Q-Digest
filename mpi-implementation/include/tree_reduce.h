@@ -26,25 +26,38 @@
 void initialize_data_array(int rank, int *data, int n);
 
 /**
- *  @brief Distributes a rank-specific data segment across MPI tasks.
+ *  @brief Scatter variable-sized segments across ranks using MPI_Scatterv.
  *
- *  Rank 0 allocates a temporary buffer, populates it via `initialize_data_array()`,
- *  and scatters @p local_n integers to each process in @p comm. Other ranks simply
- *  receive their chunk into @p local_buf via `MPI_Scatter()`.
+ *  Rank 0 either scatters the provided @p src_values with the supplied
+ *  @p counts/@p displs arrays or, when @p use_src is false or @p src_values is
+ *  NULL, first synthesizes @p buf_size integers via `_initialize_data_array()`
+ *  and scatters those. Non-root ranks always receive @p local_n integers into
+ *  @p local_buf. The routine wraps `MPI_Scatterv()` and returns the receive
+ *  buffer for convenience.
  *
- *  @param local_buf Caller-provided buffer that will hold the received integers.
- *  @param local_n Number of integers per rank (counts passed to MPI_Scatter()).
+ *  @param src_values Optional source buffer on rank 0; ignored on other ranks.
+ *  @param local_buf Caller-provided receive buffer.
+ *  @param counts Per-rank receive counts (length comm_size) passed to MPI_Scatterv.
+ *  @param displs Displacements matching @p counts.
+ *  @param local_n Number of integers expected locally (recvcount).
  *  @param rank Rank of the calling process.
- *  @param buf_size Total number of integers held on rank 0 prior to scattering.
- *  @param comm Communicator used for the scatter (typically MPI_COMM_WORLD).
+ *  @param buf_size Total number of integers available on rank 0 when @p use_src is false.
+ *  @param use_src If true and @p src_values is non-NULL, scatter that buffer instead of synthesizing data.
+ *  @param comm Communicator used for the scatter.
  *
  *  @return @p local_buf for chaining.
- *
- *  @note Rank 0 currently uses a stack-allocated `int buf[buf_size]`; once we
- *        support larger workloads this will switch to `xmalloc()` or another
- *        dynamic allocation strategy.
  */
-int *distribute_data_array(int *local_buf, int local_n, int rank, int buf_size, MPI_Comm comm);
+int *distribute_data_array(
+    int *src_values,
+    int *local_buf,
+    int *counts,
+    int *displs,
+    int local_n,
+    int rank, 
+    int buf_size,
+    bool use_src,
+    MPI_Comm comm
+);
 
 /**
  *  @brief Compute the maximum value in a buffer segment.
