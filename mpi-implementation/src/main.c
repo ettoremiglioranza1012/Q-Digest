@@ -23,20 +23,26 @@ int main(void)
     /* Handling possible rest division in n/comm_sz */
     int base = DATA_SIZE/comm_sz;
     int rest = DATA_SIZE % comm_sz;
+
+    /* Filling counts and displacements arrys with counts of 
+    how many integers each nodes will receive and with offesets
+    describing how to scatter the original array into the 
+    different processes. */
     int *counts = xmalloc(comm_sz*sizeof(int));
     int *displs = xmalloc(comm_sz*sizeof(int));
     int offset = 0;
-
     for (int i = 0; i < comm_sz; i++) {
         counts[i] = base + (i < rest ? 1 : 0);
         displs[i] = offset;
         offset += counts[i];
     }
 
+    /* Computing local dimension of the array for the given rank
+    and allocating proper memory space to held the scattered data. */
     int local_n = counts[rank];
     int *local_buf = xmalloc(local_n*sizeof(int));
 
-    // Scatter the array around the nodes
+    /* Scatter the array around the nodes */ 
     if (rank == 0) {
         printf("[rank %d] starting data distribution\n", rank);
     }

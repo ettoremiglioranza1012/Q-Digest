@@ -57,6 +57,7 @@ int *distribute_data_array(
 {
     if (rank == 0)
     {
+        // If the caller provides a source buffer and requests its use, scatter from that buffer.
         if (src_values && use_src) {
             MPI_Scatterv(
                 src_values,   // sendbuf (root routine)
@@ -70,6 +71,7 @@ int *distribute_data_array(
                 comm
             );
         } else {
+            // For convenience in testing, allocate and initialize a temporary buffer internally.
             int *buf = xmalloc(buf_size*sizeof(int));
             _initialize_data_array(rank, buf, buf_size);
             MPI_Scatterv(
@@ -81,7 +83,7 @@ int *distribute_data_array(
                 local_n,    
                 MPI_INT,
                 0,          // root
-                MPI_COMM_WORLD
+                comm
             );
             free(buf);
         }
@@ -95,7 +97,7 @@ int *distribute_data_array(
             local_n,    
             MPI_INT,
             0,          // root
-            MPI_COMM_WORLD
+            comm
             );
     }
     return local_buf;
@@ -108,27 +110,33 @@ void tree_reduce(
     int rank,
     MPI_Comm comm)
 {     
-    
+    /* checking for the number of orphan processes (i.e., those in excess of a power of two). */
     int p = comm_size;
     int p2 = 1;
     while (p2 * 2 <= p) p2 *= 2;
     int orphans = p - p2;
+    // Init a flag var to signal wheter the curr rank is orphan and needs to be trimmed,
+    // under baseline assumption that every prcs is not an orphan
+    int is_orphan = 0;
     
     /* REDUCE */
     
     /* === Trim of the communicator === */
-    if (orphans > 0 && rank < 2 * orphans) { 
-        if (rank % 2) {
+    if ((orphans > 0) && (rank < 2 * orphans)) { 
+        if (rank % 2 != 0) {
+            // Odd ranks branch or orphans -> sender 
             size_t size = get_num_of_bytes(q);
             char *buf = xmalloc(size);
-            size_t length = 0; // This is currently not used
+            size_t length = 0; // TODO
             to_string(q, buf, &length);
             MPI_Send(&size, 1, MPI_UNSIGNED_LONG, rank-1, 0, comm);
             MPI_Send(buf, size, MPI_CHAR, rank-1, 0, comm);
             free(buf);
             delete_qdigest(q);
+            is_orphan = 1;
             return;
         } else {
+            // Pair ranks branch or sibblings -> receiver 
             size_t recv_size;
             MPI_Recv(&recv_size, 1, MPI_UNSIGNED_LONG, rank + 1, 0, comm,
                 MPI_STATUS_IGNORE);
@@ -143,7 +151,12 @@ void tree_reduce(
     }
     
     /* === Compact Communicator of survivors === */
-    int is_orphan = ( (orphans > 0) && (rank < (2 * orphans)) && (rank % 2 != 0) ) ? MPI_UNDEFINED : 0;
+    /* is_orphan begins as a boolean; here it becomes the color for
+     * MPI_Comm_split, so ranks marked orphan turn into MPI_UNDEFINED
+     * (excluded) while color 0 places all surviving processes in the same
+     * communicator. */
+    if (is_orphan)
+        is_orphan = MPI_UNDEFINED;
     MPI_Comm tree_comm = MPI_COMM_NULL;
     MPI_Comm_split(comm, is_orphan, rank, &tree_comm);
     if (tree_comm == MPI_COMM_NULL) {
@@ -157,13 +170,13 @@ void tree_reduce(
     /* === Power-of-two tree reduction === */
     int levels = log_2_ceil(tree_size);
     for (int k = 0; k < levels; k++) {
-        int step_size = 1 << k;
+        uint64_t step_size = 0b0001 << k;
         if (tree_rank % (2 * step_size)) {
             /* sender branch */
             size_t size = 0;
             size += get_num_of_bytes(q);
             char *buf = xmalloc(size);
-            size_t length = 0; // This is currently not used
+            size_t length = 0; // TODO
             to_string(q, buf, &length);
             int receiver = tree_rank - step_size;
             MPI_Send(&size, 1, MPI_UNSIGNED_LONG, receiver, 0, tree_comm);
