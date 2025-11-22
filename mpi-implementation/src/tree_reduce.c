@@ -115,8 +115,10 @@ void tree_reduce(
     int p2 = 1;
     while (p2 * 2 <= p) p2 *= 2;
     int orphans = p - p2;
-    // Init a flag var to signal wheter the curr rank is orphan and needs to be trimmed,
-    // under baseline assumption that every prcs is not an orphan
+
+    // Init a flag var to signal whether the curr rank is 
+    // orphan and needs to be trimmed,
+    // under baseline assumption that every process is not an orphan
     int is_orphan = 0;
     
     /* REDUCE */
@@ -134,9 +136,8 @@ void tree_reduce(
             free(buf);
             delete_qdigest(q);
             is_orphan = 1;
-            return;
         } else {
-            // Pair ranks branch or sibblings -> receiver 
+            // Pair ranks branch or siblings -> receiver 
             size_t recv_size;
             MPI_Recv(&recv_size, 1, MPI_UNSIGNED_LONG, rank + 1, 0, comm,
                 MPI_STATUS_IGNORE);
@@ -158,15 +159,21 @@ void tree_reduce(
     if (is_orphan)
         is_orphan = MPI_UNDEFINED;
     MPI_Comm tree_comm = MPI_COMM_NULL;
+    // printf("DEBUG: before comm split\n");
     MPI_Comm_split(comm, is_orphan, rank, &tree_comm);
+    // printf("DEBUG: after comm split\n");
     if (tree_comm == MPI_COMM_NULL) {
+        // printf("DEBUG: tree comm is NULL\n");
         return;
     }
     
+    /*====== SECTION ON REDUCED TREE =========*/
     int tree_rank, tree_size;
     MPI_Comm_rank(tree_comm, &tree_rank);
     MPI_Comm_size(tree_comm, &tree_size);
-    
+
+    printf("reduced tree communicator size is %d\n", tree_size);
+
     /* === Power-of-two tree reduction === */
     int levels = log_2_ceil(tree_size);
     for (int k = 0; k < levels; k++) {
