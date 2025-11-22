@@ -63,7 +63,7 @@ int main(void)
 
     // From the data buffer create the q-digest
     size_t upper_bound = _get_curr_upper_bound(local_buf, local_n);
-    struct QDigest *q = _build_q_from_vector(local_buf, local_n, upper_bound);
+    struct QDigest *q = _build_q_from_vector(local_buf, local_n, upper_bound, 5);
     printf("[rank %d] built q-digest, starting tree_reduce\n", rank);
     MPI_Barrier(MPI_COMM_WORLD); // DEBUGGING 
 

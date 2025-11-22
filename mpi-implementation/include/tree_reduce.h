@@ -95,7 +95,7 @@ size_t _get_curr_upper_bound(int *buf, int n);
  *
  *  @return Newly allocated QDigest containing all values from @p a.
  */
-struct QDigest *_build_q_from_vector(int *a, int size, size_t upper_bound);
+struct QDigest *_build_q_from_vector(int *a, int size, size_t upper_bound, int k);
 
 
 /* ============== PARALLE Q-DIGEST FUNCTION =============== */

@@ -1,5 +1,4 @@
 #include <mpi.h>
-#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -31,12 +30,12 @@ size_t _get_curr_upper_bound(int *buf, int n)
     return max;   
 }
 
-struct QDigest *_build_q_from_vector(int *a, int size, size_t upper_bound) {
+struct QDigest *_build_q_from_vector(int *a, int size, size_t upper_bound, int k) {
     /* FIXED: This portion of the code was causing a segfault
      * due to the fact that when using an upper bound that is much
      * smaller than the actual received number the q-digest might
      * overflow internal nodes, causing a strange ranges in serialization. */
-    struct QDigest *q = create_tmp_q(5, upper_bound);
+    struct QDigest *q = create_tmp_q(k, upper_bound);
     for (int i = 0; i < size; i++) {
         insert(q, a[i], 1, true);
     }
