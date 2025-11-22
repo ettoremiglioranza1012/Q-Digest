@@ -418,6 +418,63 @@ size_t percentile(struct QDigest *q, double p);
 /* ================= SERIALIZATION FUNCTIONS =======================*/
 
 /**
+ *  @brief Return number of digits for unsigned int value.
+ *
+ *  This function initialise a counter to one to then return the number 
+ *  of digits by dividing the value in input by 10 until the current value
+ *  is less then 10, incrementing the digits counter by one at each steps.
+ *
+ *  @param value A reference to the value we want to know how many digits
+ *                it is composed of
+ *
+ *  @param digits A counter of the number of digits the input value is 
+ *                composed of
+ *
+ *  @return A reference to the number of digits the input value is composed 
+ *          of.
+ */
+size_t _digits(size_t value);
+/**
+ *  @brief Computes the number of bytes required to serialize a node subtree.
+ *
+ *  Recursively walks the provided node, summing the number of characters needed
+ *  to serialize every descendant with a non-zero count, including delimiters
+ *  between the lower bound, upper bound, and count values.
+ *
+ *  @param n A pointer to the node whose subtree will be measured. NULL returns 0.
+ *
+ *  @return The exact number of bytes required to serialize the subtree rooted at @p n.
+ *
+ *  @note The calculation currently adds a hard-coded 3 bytes for the two spaces
+ *        and newline that separate the three values in each row. Once we allow
+ *        configurable delimiters, this literal will be replaced with the
+ *        length of the delimiter strings provided at runtime.
+ */
+size_t get_bytes_of_node(struct QDigestNode *n);
+
+/**
+ *  @brief Computes the buffer size needed to serialize an entire QDigest.
+ *
+ *  Sums the bytes required for the header line and all nodes with non-zero
+ *  counts (by delegating to `get_bytes_of_node()`), and includes space for the
+ *  terminating null byte so callers can pre-allocate an adequate buffer.
+ *
+ *  @param q Pointer to the QDigest whose serialized size is requested.
+ *
+ *  @return The total number of bytes required for the serialized digest, including
+ *          the null terminator. Returns 0 if the digest or root is NULL.
+ *
+ *  @note The header size calculation currently assumes exactly three spaces and
+ *        one newline (4 bytes) in the metadata line. This literal will be replaced
+ *        by the computed length of configurable field separators once we support
+ *        injecting custom formatting.
+ *  @note Another intereseting update would be that for the  explicit +1 for the 
+ *        null terminator to become the length of the caller-provided terminator 
+ *        sequence when we move to dynamic serialization options.
+ */
+size_t get_num_of_bytes(struct QDigest *q);
+
+/**
  *  @brief Serializes a QDigest tree into a string using preorder traversal.
  *
  *  This function walks the QDigestNode tree in preorder (node first,
