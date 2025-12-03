@@ -9,7 +9,7 @@
  * favor of proper user-based I/O */
 // how many numbers to generate
 // also the size of the array (vector) that stores them in process 0
-#define DATA_SIZE 1024
+#define DATA_SIZE 100000000000
 #define LOWER_BOUND 0
 #define UPPER_BOUND 10
 #define K 5
@@ -18,6 +18,7 @@
 int main(void) 
 {
     int rank, comm_sz;
+    double local_start, local_finish, local_elapsed, elapsed;
 
     MPI_Init(NULL, NULL);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
@@ -70,7 +71,8 @@ int main(void)
     printf("[rank %d] finished scatter, building local digest\n", rank);
     MPI_Barrier(MPI_COMM_WORLD); // DEBUGGING 
 
-    // From the data buffer create the q-digest
+    // From the data buffer create the q-digesti
+    local_start = MPI_Wtime();
     size_t local_upper_bound = _get_curr_upper_bound(local_buf, local_n);
     size_t global_upper_bound;
     MPI_Allreduce(
@@ -90,7 +92,14 @@ int main(void)
     printf("[rank %d] tree_reduce completed\n", rank);
     MPI_Barrier(MPI_COMM_WORLD); // DEBUGGING 
 
+    local_finish = MPI_Wtime();
+    local_elapsed = local_finish - local_start;
+    MPI_Reduce(&local_elapsed, &elapsed, 1, MPI_DOUBLE,
+            MPI_MAX, 0, MPI_COMM_WORLD);
+
+    if (rank == 0)
+        printf("Elapsed time = %e seconds\n", elapsed);
+
     MPI_Finalize();
-    printf("Apparenly alla worked fine!\n"); // DEBUGGING 
     return 0;
 }
