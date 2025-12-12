@@ -69,3 +69,6 @@ dkms.conf
 
 # doxygen documentation
 docs/doxygen
+
+# python virutal environments
+.venv
