@@ -29,6 +29,11 @@ python ./generate_dataset.py --seed 101 --n 1000000 --save
 # --dist argument. The example below samples from a Gaussian distribution.
 python ./generate_dataset.py --seed 101 --n 1000000 --save --dist gaussian
 
+# it is also possible to compute the quantiles of the distribution and print those
+# the example below computes the 10th, 20th, 70th, and 90th quantiles along with
+# the median (0.5) and the maximum of the distribution (1.0)
+python ./generate_dataset.py --seed 101 --n 1000000 --quantiles 0.1 0.2 0.5 0.7 0.9 1.0
+
 # to know all the details and supported distributions open the help menu by running:
 python ./generate_dataset.py --help
 ```

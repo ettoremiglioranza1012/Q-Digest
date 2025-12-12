@@ -6,9 +6,10 @@ from datetime import datetime
 import os
 import logging
 from pathlib import Path
+from typing import List
 
 # initialize logger
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
 # instantiate the argument parser
@@ -30,6 +31,10 @@ parser.add_argument("--n",
 parser.add_argument("--save", 
                     action='store_true', # treats this argument as a flag setting it to true
                     help = "use this argument if to write results to a file.")
+parser.add_argument("--quantiles",
+                    help = "the quantiles to compute. A set of floats between 0, and 1 (inclusive)",
+                    nargs='+',
+                    type=float)
 
 args = parser.parse_args()
 # handle cases when the arguments are not set
@@ -39,7 +44,8 @@ seed = 121 if not args.seed else args.seed
 # logger.info("Setting seed to:", seed)
 dist = None if not args.dist else args.dist
 # logger.info("Setting distribution to:", dist)
-
+# default to quartiles if no quantile is passed
+quantiles: List[float] = [0.0, 0.25, 0.5, 0.75, 1.0] if not args.quantiles else args.quantiles
 result = np.array([])
 # instantiate the generator object
 generator = np.random.default_rng(seed=seed)
@@ -70,6 +76,7 @@ else:
             logger.info(f"Generating {size} random integers from geometric distribution")
             result = generator.geometric(p=0.1, size=size).astype(np.uint32)
 
+# save to file + error handling in case of missing directory
 if args.save:
     file_path = Path(__file__)
     dir_path = file_path.parent
@@ -81,6 +88,13 @@ if args.save:
         os.makedirs(dest_dir_path)
         logger.info(f"Directory {dest_dir_path} created successfully.")
     full_path = dest_dir_path.joinpath(dataset_name)
-    np.savetxt(full_path, result.reshape(1,-1), delimiter=',', fmt='%d')
+    np.savetxt(full_path, result.reshape(1,-1), delimiter=',', fmt='%d') # need to reshape into array with 1 row and size cols
 else:
     logger.info(f"Generated numbers: {result}")
+
+distribution_quantiles = np.quantile(result, quantiles).astype(np.uint32)
+for i in range(len(quantiles)):
+    logger.info(f"{quantiles[i]*100}th quantile: {distribution_quantiles[i]}") 
+
+# logger.debug(f"Check min of distribution: {result.min()}")
+# logger.debug(f"Check max of distribution: {result.max()}")
