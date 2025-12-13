@@ -1,7 +1,5 @@
 var searchData=
 [
-  ['ref_0',['ref',['../structObject.html#a1b6037fba835e83243ababce426ff9af',1,'Object']]],
-  ['result_1',['result',['../namespacegenerate__dataset.html#a8e38ecbe59fb29362daac5640c4ccd84',1,'generate_dataset']]],
-  ['right_2',['right',['../structQDigestNode.html#a917da089a784bfe59a2d2b06bf64c2a1',1,'QDigestNode']]],
-  ['root_3',['root',['../structQDigest.html#ac93cb739218873d2cebec93c4fe762b4',1,'QDigest']]]
+  ['val_0',['val',['../structqueueNode.html#a94598a2febb25b87ec76886f74e8b5a2',1,'queueNode']]],
+  ['valid_5fdists_1',['valid_dists',['../namespacegenerate__dataset.html#a8c388c3bb76aaa803c80c59c7f33fa1c',1,'generate_dataset']]]
 ];

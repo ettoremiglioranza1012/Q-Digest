@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['a_0',['A',['../memgrp_8cpp.html#a955f504eccf76b4eb2489c0adab03121',1,'memgrp.cpp']]],
-  ['abs_1',['ABS',['../autolink_8cpp.html#a996f7be338ccb40d1a2a5abc1ad61759',1,'ABS():&#160;autolink.cpp'],['../define_8h.html#a996f7be338ccb40d1a2a5abc1ad61759',1,'ABS():&#160;define.h']]]
+  ['data_5fsize_0',['DATA_SIZE',['../main_8c.html#af55149bc1f05cf18af067a302e31e3f9',1,'DATA_SIZE:&#160;main.c'],['../test__review_8c.html#af55149bc1f05cf18af067a302e31e3f9',1,'DATA_SIZE:&#160;test_review.c']]]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['log_5f2_5fceil_0',['log_2_ceil',['../qcore_8h.html#a54a31f38410c0938070c6417970f8122',1,'log_2_ceil(size_t n):&#160;qcore.c'],['../qcore_8c.html#a54a31f38410c0938070c6417970f8122',1,'log_2_ceil(size_t n):&#160;qcore.c']]]
+  ['node_5fand_5fsibling_5fcount_0',['node_and_sibling_count',['../qcore_8c.html#ad064406991041115ad0fe0e2c280dbe6',1,'node_and_sibling_count(struct QDigestNode *n):&#160;qcore.c'],['../qcore_8h.html#ad064406991041115ad0fe0e2c280dbe6',1,'node_and_sibling_count(struct QDigestNode *n):&#160;qcore.c']]]
 ];

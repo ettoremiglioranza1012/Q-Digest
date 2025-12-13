@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['generate_5fdataset_2epy_0',['generate_dataset.py',['../generate__dataset_8py.html',1,'']]],
-  ['group_2ecpp_1',['group.cpp',['../group_8cpp.html',1,'']]]
+  ['readme_2emd_0',['README.md',['../mpi-implementation_2README_8md.html',1,'(Global Namespace)'],['../README_8md.html',1,'(Global Namespace)'],['../src_2dataset-generator_2README_8md.html',1,'(Global Namespace)']]]
 ];

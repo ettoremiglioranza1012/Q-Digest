@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['instruction_20to_20run_20first_20version_20of_20mpi_0',['Instruction to run first version of MPI',['../md_mpi_implementation_README.html',1,'']]],
-  ['instructions_20for_20testing_1',['Instructions for testing',['../md_serial_implementation_INSTRUCTIONS.html',1,'']]]
+  ['dataset_20generator_0',['Dataset generator',['../dir_976b980c1223a1395181c8492801b08c.html#autotoc_md0',1,'']]],
+  ['digest_20parallel_20implementation_1',['Q-Digest Parallel Implementation',['../md_README.html',1,'']]],
+  ['docs_2',['Docs',['../md_README.html#autotoc_md13',1,'']]]
 ];

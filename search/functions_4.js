@@ -1,5 +1,7 @@
 var searchData=
 [
-  ['example_0',['example',['../classExample__Test.html#a22a62b12c65fd5e43b6eadaabb21ebb0',1,'Example_Test::example()'],['../classInclude__Test.html#aa286655e8f7f6a8ad203ef5fd8548b81',1,'Include_Test::example()'],['../classTag.html#acc641ffae34e2c4c03a6edf0a513be28',1,'Tag::example()']]],
-  ['expand_5ftree_1',['expand_tree',['../qcore_8h.html#aa2c0811b629da7d0af69034b4befcada',1,'expand_tree(struct QDigest *q, size_t upper_bound):&#160;qcore.c'],['../qcore_8c.html#aa2c0811b629da7d0af69034b4befcada',1,'expand_tree(struct QDigest *q, size_t upper_bound):&#160;qcore.c']]]
+  ['free_5farray_0',['free_array',['../dynamic__array_8c.html#aa12c8a334e6c87c24b5fce06c6ae5b3e',1,'free_array(Array *a):&#160;dynamic_array.c'],['../dynamic__array_8h.html#aa12c8a334e6c87c24b5fce06c6ae5b3e',1,'free_array(Array *a):&#160;dynamic_array.c']]],
+  ['free_5ftree_1',['free_tree',['../qcore_8c.html#a9f6a01d56b8708f88f3cf16d43ba11c6',1,'free_tree(struct QDigestNode *n):&#160;qcore.c'],['../qcore_8h.html#a9f6a01d56b8708f88f3cf16d43ba11c6',1,'free_tree(struct QDigestNode *n):&#160;qcore.c']]],
+  ['from_5fstring_2',['from_string',['../qcore_8c.html#a4170bb66a23c75cf884abce8256f6a60',1,'from_string(char *buf):&#160;qcore.c'],['../qcore_8h.html#a4170bb66a23c75cf884abce8256f6a60',1,'from_string(char *buf):&#160;qcore.c']]],
+  ['front_3',['front',['../queue_8c.html#a9cd56e4473957d76de249b2d2a558f71',1,'front(struct queue *q):&#160;queue.c'],['../queue_8h.html#a9cd56e4473957d76de249b2d2a558f71',1,'front(struct queue *q):&#160;queue.c']]]
 ];

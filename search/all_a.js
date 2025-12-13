@@ -1,7 +1,4 @@
 var searchData=
 [
-  ['javadoc_2dbanner_2eh_0',['javadoc-banner.h',['../javadoc-banner_8h.html',1,'']]],
-  ['javadoc_5ftest_1',['Javadoc_Test',['../classJavadoc__Test.html',1,'Javadoc_Test'],['../classJavadoc__Test.html#a17313327932ae97596b0a455ba8342cc',1,'Javadoc_Test::Javadoc_Test()']]],
-  ['javadocbanner_2',['javadocBanner',['../javadoc-banner_8h.html#a62d4ceb96f5b5b75450244869482de68',1,'javadoc-banner.h']]],
-  ['jdstyle_2ecpp_3',['jdstyle.cpp',['../jdstyle_8cpp.html',1,'']]]
+  ['k_0',['K',['../structQDigest.html#adf968bd9b01cca4b73fb4dd73ff185c0',1,'QDigest::K'],['../main_8c.html#a97d832ae23af4f215e801e37e4f94254',1,'K:&#160;main.c'],['../test__review_8c.html#a97d832ae23af4f215e801e37e4f94254',1,'K:&#160;test_review.c']]]
 ];

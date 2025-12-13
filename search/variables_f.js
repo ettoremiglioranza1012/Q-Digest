@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['quantiles_0',['quantiles',['../namespacegenerate__dataset.html#ad1fc435e9d46dcf2824019af91636b2f',1,'generate_dataset']]]
+  ['upper_5fbound_0',['upper_bound',['../structQDigestNode.html#a5f45d5568032085eabced9fa118d5252',1,'QDigestNode']]]
 ];

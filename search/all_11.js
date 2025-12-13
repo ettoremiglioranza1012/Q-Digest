@@ -1,15 +1,9 @@
 var searchData=
 [
-  ['q_2ddigest_20parallel_20implementation_0',['Q-Digest Parallel Implementation',['../md_README.html',1,'']]],
-  ['qcore_2ec_1',['qcore.c',['../qcore_8c.html',1,'']]],
-  ['qcore_2eh_2',['qcore.h',['../qcore_8h.html',1,'']]],
-  ['qdigest_3',['QDigest',['../structQDigest.html',1,'']]],
-  ['qdigestnode_4',['QDigestNode',['../structQDigestNode.html',1,'']]],
-  ['qtstyle_2ecpp_5',['qtstyle.cpp',['../qtstyle_8cpp.html',1,'']]],
-  ['qtstyle_5ftest_6',['QTstyle_Test',['../classQTstyle__Test.html',1,'QTstyle_Test'],['../classQTstyle__Test.html#a14a296ea4e2ad446712f2310bec60766',1,'QTstyle_Test::QTstyle_Test()']]],
-  ['quantiles_7',['quantiles',['../namespacegenerate__dataset.html#ad1fc435e9d46dcf2824019af91636b2f',1,'generate_dataset']]],
-  ['queue_8',['queue',['../structqueue.html',1,'']]],
-  ['queue_2ec_9',['queue.c',['../queue_8c.html',1,'']]],
-  ['queue_2eh_10',['queue.h',['../queue_8h.html',1,'']]],
-  ['queuenode_11',['queueNode',['../structqueueNode.html',1,'']]]
+  ['readme_2emd_0',['README.md',['../mpi-implementation_2README_8md.html',1,'(Global Namespace)'],['../README_8md.html',1,'(Global Namespace)'],['../src_2dataset-generator_2README_8md.html',1,'(Global Namespace)']]],
+  ['result_1',['result',['../namespacegenerate__dataset.html#ac1d87eadfd12d0d5156bddad83346351',1,'generate_dataset']]],
+  ['results_20of_20testing_20on_20qcore_2',['Results of testing on QCore',['../md_serial-implementation_2INSTRUCTIONS.html#autotoc_md4',1,'']]],
+  ['right_3',['right',['../structQDigestNode.html#a917da089a784bfe59a2d2b06bf64c2a1',1,'QDigestNode']]],
+  ['root_4',['root',['../structQDigest.html#ac93cb739218873d2cebec93c4fe762b4',1,'QDigest']]],
+  ['run_20first_20version_20of_20mpi_5',['Instruction to run first version of MPI',['../dir_cb97de7279c00998c4e56b74fc9b6627.html#autotoc_md6',1,'']]]
 ];

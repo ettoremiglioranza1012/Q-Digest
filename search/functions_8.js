@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['javadoc_5ftest_0',['Javadoc_Test',['../classJavadoc__Test.html#a17313327932ae97596b0a455ba8342cc',1,'Javadoc_Test']]],
-  ['javadocbanner_1',['javadocBanner',['../javadoc-banner_8h.html#a62d4ceb96f5b5b75450244869482de68',1,'javadoc-banner.h']]]
+  ['main_0',['main',['../test__qcore_8c.html#a840291bc02cba5474a4cb46a9b9566fe',1,'main(void):&#160;test_qcore.c'],['../main_8c.html#a840291bc02cba5474a4cb46a9b9566fe',1,'main(void):&#160;main.c'],['../test__review_8c.html#a840291bc02cba5474a4cb46a9b9566fe',1,'main(void):&#160;test_review.c']]],
+  ['merge_1',['merge',['../qcore_8c.html#a16aa1f7a872be99335caef6193fe9bd1',1,'merge(struct QDigest *q1, const struct QDigest *q2):&#160;qcore.c'],['../qcore_8h.html#a16aa1f7a872be99335caef6193fe9bd1',1,'merge(struct QDigest *q1, const struct QDigest *q2):&#160;qcore.c']]]
 ];

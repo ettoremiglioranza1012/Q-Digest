@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['handler_0',['handler',['../classJavadoc__Test.html#ace81a523a4eef44501a841a6d338832b',1,'Javadoc_Test::handler()'],['../classQTstyle__Test.html#a79dd4e5498f09057775a819d911349e2',1,'QTstyle_Test::handler()']]],
-  ['help_1',['help',['../namespacegenerate__dataset.html#a767f64e005b4ccb14afdbf975355eb30',1,'generate_dataset']]]
+  ['max_5fuint32_0',['max_uint32',['../namespacegenerate__dataset.html#a6368a21ae48707a640660a17fe7a7018',1,'generate_dataset']]],
+  ['mean_1',['mean',['../namespacegenerate__dataset.html#ae40096da42eefd5c127caf131818a207',1,'generate_dataset']]],
+  ['metavar_2',['metavar',['../namespacegenerate__dataset.html#a8a119c415093d3ea9819d6a68cf88b22',1,'generate_dataset']]]
 ];

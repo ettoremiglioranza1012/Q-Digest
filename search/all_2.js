@@ -1,7 +1,5 @@
 var searchData=
 [
-  ['b_0',['B',['../classB.html',1,'B'],['../memgrp_8cpp.html#a7ddc550b157ed6f8db58e462b504ab0f',1,'B():&#160;memgrp.cpp'],['../autolink_8cpp.html#a7ddc550b157ed6f8db58e462b504ab0f',1,'B():&#160;autolink.cpp']]],
-  ['base_1',['base',['../structVehicle.html#ad7970f528d429f6fc1725173e93a77c2',1,'Vehicle::base()'],['../structCar.html#ab8ff28306286da5a8b14fa9bdccaafaa',1,'Car::base()'],['../structTruck.html#ad0ac321609dda1a6c552488b05ec7ac8',1,'Truck::base()']]],
-  ['behavior_2',['behavior',['../classmux__using__with_1_1behavior.html',1,'mux_using_with']]],
-  ['bug_20list_3',['Bug List',['../bug.html',1,'']]]
+  ['balancing_0',['Load balancing',['../dir_cb97de7279c00998c4e56b74fc9b6627.html#autotoc_md8',1,'']]],
+  ['building_20the_20project_1',['Building the project',['../md_README.html#autotoc_md12',1,'']]]
 ];

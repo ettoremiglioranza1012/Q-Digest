@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['afterdoc_2eh_0',['afterdoc.h',['../afterdoc_8h.html',1,'']]],
-  ['author_2ecpp_1',['author.cpp',['../author_8cpp.html',1,'']]],
-  ['autolink_2ecpp_2',['autolink.cpp',['../autolink_8cpp.html',1,'']]]
+  ['dynamic_5farray_2ec_0',['dynamic_array.c',['../dynamic__array_8c.html',1,'']]],
+  ['dynamic_5farray_2eh_1',['dynamic_array.h',['../dynamic__array_8h.html',1,'']]]
 ];
