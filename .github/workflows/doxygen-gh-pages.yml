@@ -3,7 +3,7 @@ name: Doxygen GitHub Pages Deploy Action
 on:
   push:
     branches:
-      - anthony/docs-pipeline
+      - main
   workflow_dispatch:
 
 jobs:
@@ -18,4 +18,4 @@ jobs:
           branch: gh-pages
           folder: docs/doxygen/html
           config_file: Doxyfile
-          doxygen_version: 1.9.6
+          doxygen_version: 1.15.0

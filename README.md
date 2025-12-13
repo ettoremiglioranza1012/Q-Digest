@@ -1,4 +1,5 @@
 # Q-Digest Parallel Implementation
+
 This is a test `README` for the HPC project.
 
 ## Building the project
@@ -10,7 +11,7 @@ project.
 Those known to be working are:
 
 1. `make help`
-2. `make clean` -> removes the `lib`, `bin`, and `build` directories 
+2. `make clean` -> removes the `lib`, `bin`, and `build` directories
 3. `make library` -> builds the library
 4. `make mpi` -> builds the MPI parallel program
 5. `make docs` -> builds the documentation in docs/doxygen.
@@ -23,5 +24,10 @@ Those known to be working are:
 ## Docs
 
 The quickest way to build the docs and explore them is to run
-`make docs` and then open the `docs/doxygen/html/index.html` file 
+`make docs` and then open the `docs/doxygen/html/index.html` file
 in a web browser to explore the documentation interactively.
+
+![WARNING]
+
+> Make sure to include the directories that should be included for documentation
+> purposes as arguments to the `INCLUDE` field inside the `Doxyfile`.
