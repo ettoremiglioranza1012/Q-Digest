@@ -1,7 +1,0 @@
-var searchData=
-[
-  ['last_0',['last',['../structqueue.html#a7d84e5606ef2126b776f55344cef6939',1,'queue']]],
-  ['left_1',['left',['../struct_q_digest_node.html#abb25a0f91280871ef6483e273f904e80',1,'QDigestNode']]],
-  ['len_2',['len',['../structqueue.html#a0a2543ce32392c9dde46a2b28c2c8937',1,'queue']]],
-  ['lower_5fbound_3',['lower_bound',['../struct_q_digest_node.html#a187a6c54efe756b57a6e3e93196f0adc',1,'QDigestNode']]]
-];
