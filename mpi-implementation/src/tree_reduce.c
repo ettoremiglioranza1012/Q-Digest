@@ -202,7 +202,7 @@ void tree_reduce(
      * 
      * */
     int levels = log_2_ceil(tree_size);
-    printf("total depth of the tree is %d\n", levels);
+    // printf("total depth of the tree is %d\n", levels);
     for (int k = 0; k < levels; k++) {
         uint64_t step_size = 0b0001 << k;
         // printf("DEBUG: current step size is %llu\n", step_size);

@@ -6,8 +6,6 @@
  *  $ ./omp_hello 4
  */
 
-
-// Load libraries
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -31,15 +29,13 @@
 
 
 // User's defined Macros 
-#define DATA_SIZE 300
-#define K 200   
+#define DATA_SIZE 100000000
 #define LOWER_BOUND 0
-#define UPPER_BOUND 20
+#define UPPER_BOUND 40
+#define K 5 
 
 
-// Functions prototypes
-int compute_median(int *buf, size_t size);
-/* ============== MAIN FUNCTION ======================== */
+/* ============== MAIN FUNCTION ================ */
 int main(int argc, char* argv[]) 
 {
     // Check for input parameters
@@ -78,7 +74,12 @@ int main(int argc, char* argv[])
     #pragma omp master  
     {
         int master_id = omp_get_thread_num();
-        initialize_data_array_for_omp(master_id, buf, DATA_SIZE, LOWER_BOUND, UPPER_BOUND);
+        initialize_data_array_for_omp(
+            master_id,
+            buf, 
+            DATA_SIZE,
+            LOWER_BOUND,
+            UPPER_BOUND);
     }   
     
     // Variables and containers for parallel directive
@@ -87,6 +88,8 @@ int main(int argc, char* argv[])
     struct QDigest *final_q; // Global QDigest accumulator
     size_t n = DATA_SIZE-1; 
     size_t glob_mx = 0;
+
+    double start = omp_get_wtime();
 
     // Threads execution
     #pragma omp parallel num_threads(thread_count) \
@@ -166,12 +169,12 @@ int main(int argc, char* argv[])
             merge(final_q, local_results[k]);
             delete_qdigest(local_results[k]);
         }   
-        
-        // Debug
-        #pragma omp single
-        {
-            printf("Reduction completed successfully\n");
-        }
     }
+    double end = omp_get_wtime();
+    printf("\n");
+    printf("Reduction completed successfully\n");
+    printf("Execution time: %f seconds\n", end - start);
+    printf("\n");    
+    
     return 0;
 }

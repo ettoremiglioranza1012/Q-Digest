@@ -22,7 +22,12 @@
  *  @param up upper bound of data.
  *
  */
-void initialize_data_array(int rank, int *data, size_t n, size_t lb, size_t ub);
+void initialize_data_array(
+        int rank, 
+        int *data,
+        size_t n, 
+        size_t lb, 
+        size_t ub);
 
 /**
  *  @brief Scatter variable-sized segments across ranks using MPI_Scatterv.
