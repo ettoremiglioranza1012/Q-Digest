@@ -31,7 +31,9 @@ var NAVTREE =
     ] ],
     [ "Q-Digest Parallel Implementation", "md_README.html", [
       [ "Building the project", "md_README.html#autotoc_md12", null ],
-      [ "Docs", "md_README.html#autotoc_md13", null ]
+      [ "Docs", "md_README.html#autotoc_md13", [
+        [ "WARNING", "md_README.html#autotoc_md14", null ]
+      ] ]
     ] ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
@@ -62,7 +64,8 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"annotated.html"
+"annotated.html",
+"tree__reduce_8c.html#a8b82d08358d97540a490b41e0b68ace1"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';
