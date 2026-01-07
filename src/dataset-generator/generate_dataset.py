@@ -81,7 +81,7 @@ if args.save:
     file_path = Path(__file__)
     dir_path = file_path.parent
     dest_dir_name = "datasets"
-    dataset_name = f"{datetime.now()}+size{size}".replace(' ', '_').replace(':', '.')
+    dataset_name = f"{datetime.now()}+size{size}.txt".replace(' ', '_').replace(':', '.')
     dest_dir_path = dir_path.joinpath(dest_dir_name)
     if not dest_dir_path.exists():
         logger.warning(f"Directory {dest_dir_path} does not exist, creating it now...")

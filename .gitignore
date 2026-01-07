@@ -75,3 +75,6 @@ docs/doxygen
 
 # compile flags to allow the compiler to link with MPI headers
 compile_flags.txt
+
+# generated datasets
+datasets
