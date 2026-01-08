@@ -1,25 +1,20 @@
 #!/bin/bash
 
 # --- Configuration ---
-# Path to your MPI executable
 EXECUTABLE="./mpi-implementation/bin/main"
-
-# Directory to save results
 BASE_RESULT_DIR="results"
+DATA_DIR="./src/dataset-generator/datasets/"
 
-# Simulation parameters
-# Sizes in full integer form: 1M, 2M, 4M, 8M, 16M
+# Data sizes in full integer form
 SIZES=(1000000 2000000 4000000 8000000 16000000)
 
-# CPU counts (adjust as needed for your cluster)
+# CPU counts
 CPUS=(1 2 4 8 16 32 64)
 
-# Number of iterations per configuration
 ITERATIONS=10
 
 # --- Main Logic ---
 
-# Create base results directory if it doesn't exist
 mkdir -p "$BASE_RESULT_DIR"
 
 echo "Starting Benchmark Run..."
@@ -28,16 +23,23 @@ echo "--------------------------------"
 for c in "${CPUS[@]}"; do
     for s in "${SIZES[@]}"; do
         
-        # Define and create the specific sub-directory
+        # --- NEW: Construct the filename ---
+        # This creates names like "size1000000", "size2000000", etc.
+        INPUT_FILE="${DATA_DIR}size${s}"
+
+        # ### Safety Check: Ensure input file exists before submitting ###
+        if [ ! -f "$INPUT_FILE" ]; then
+            echo "Error: Input file '$INPUT_FILE' not found! Skipping..."
+            continue
+        fi
+
         CURRENT_DIR="${BASE_RESULT_DIR}/cpus_${c}_size_${s}"
         mkdir -p "$CURRENT_DIR"
         
-        echo "Processing: $c CPUs | Data Size: $s"
+        echo "Processing: $c CPUs | Input File: $INPUT_FILE"
 
         for ((i=1; i<=ITERATIONS; i++)); do
             
-            # 1. Create a temporary PBS submission script
-            # We name it 'job.sh' so the output file becomes 'job.sh.o{ID}'
             cat <<EOF > job.sh
 #!/bin/bash
 #PBS -N benchmark_${c}_${s}
@@ -45,49 +47,40 @@ for c in "${CPUS[@]}"; do
 #PBS -l walltime=00:05:00
 #PBS -j oe
 
-# Move to the directory where the script was submitted
 cd \$PBS_O_WORKDIR
 
-# Run the MPI program
-# Note: We pass the CPU count to -n and the size as an argument
-mpirun -n ${c} ${EXECUTABLE} ${s}
+# Run MPI with the input file name
+mpirun -n ${c} ${EXECUTABLE} ${INPUT_FILE}
 EOF
 
-            # 2. Submit the job and capture the Job ID
-            # qsub returns the Job ID (e.g., 12345.cluster.local)
+            # Submit and grab ID
             FULL_JOB_ID=$(qsub job.sh)
-            
-            # Extract just the numeric part of the ID (e.g., 12345) for tracking
             JOB_NUM=$(echo "$FULL_JOB_ID" | grep -o '^[0-9]*')
 
             echo "  > Iteration $i/$ITERATIONS submitted. Job ID: $JOB_NUM"
 
-            # 3. Wait loop: Check if the job is still running
-            # We use qstat to check the status. If qstat returns exit code 0, the job exists.
+            # Wait for job completion
             while qstat "$JOB_NUM" > /dev/null 2>&1; do
                 sleep 5
             done
 
-            # 4. Wait for the filesystem to sync (Crucial step)
-            # Sometimes the .o file takes a second to appear after the job vanishes from qstat
+            # Wait for filesystem sync
             sleep 3
 
-            # 5. Move the output file to the sub-directory
-            # PBS typically names output: script_name.sh.o{JobNumber}
+            # Move output
             OUTPUT_FILE="job.sh.o${JOB_NUM}"
             
             if [ -f "$OUTPUT_FILE" ]; then
                 mv "$OUTPUT_FILE" "${CURRENT_DIR}/run_${i}_${OUTPUT_FILE}"
-                echo "    Finished. Output saved to $CURRENT_DIR"
+                echo "    Finished."
             else
-                echo "    Warning: Output file $OUTPUT_FILE not found!"
+                echo "    Warning: Output file missing."
             fi
 
         done
     done
 done
 
-# Clean up the temporary submission script
 rm -f job.sh
 
 echo "--------------------------------"
