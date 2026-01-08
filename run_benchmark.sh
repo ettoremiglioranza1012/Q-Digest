@@ -25,7 +25,7 @@ for c in "${CPUS[@]}"; do
         
         # --- NEW: Construct the filename ---
         # This creates names like "size1000000", "size2000000", etc.
-        INPUT_FILE="${DATA_DIR}size${s}"
+        INPUT_FILE="${DATA_DIR}size${s}.txt"
 
         # ### Safety Check: Ensure input file exists before submitting ###
         if [ ! -f "$INPUT_FILE" ]; then
@@ -43,13 +43,14 @@ for c in "${CPUS[@]}"; do
             cat <<EOF > job.sh
 #!/bin/bash
 #PBS -N benchmark_${c}_${s}
-#PBS -l select=1:ncpus=1:mem=1gb
+#PBS -l select=1:ncpus=${c}:mem=2gb -l place=pack:excl
 #PBS -l walltime=00:00:30
 #PBS -q short_HPC4DS
 cd \$PBS_O_WORKDIR
 
+module load mpich-3.2
 # Run MPI with the input file name
-mpirun -n ${c} ${EXECUTABLE} ${INPUT_FILE}
+mpirun.actual -n ${c} ${EXECUTABLE} ${INPUT_FILE}
 EOF
 
             # Submit and grab ID
