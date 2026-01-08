@@ -43,10 +43,9 @@ for c in "${CPUS[@]}"; do
             cat <<EOF > job.sh
 #!/bin/bash
 #PBS -N benchmark_${c}_${s}
-#PBS -l nodes=1:ppn=${c}
-#PBS -l walltime=00:05:00
-#PBS -j oe
-
+#PBS -l select=1:ncpus=1:mem=1gb
+#PBS -l walltime=00:00:30
+#PBS -q short_HPC4DS
 cd \$PBS_O_WORKDIR
 
 # Run MPI with the input file name
