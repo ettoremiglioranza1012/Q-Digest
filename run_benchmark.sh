@@ -23,11 +23,9 @@ echo "--------------------------------"
 for c in "${CPUS[@]}"; do
     for s in "${SIZES[@]}"; do
         
-        # --- NEW: Construct the filename ---
-        # This creates names like "size1000000", "size2000000", etc.
-        INPUT_FILE="${DATA_DIR}size${s}.txt"
+        INPUT_FILE="${DATA_DIR}size${s}"
 
-        # ### Safety Check: Ensure input file exists before submitting ###
+        # Safety Check
         if [ ! -f "$INPUT_FILE" ]; then
             echo "Error: Input file '$INPUT_FILE' not found! Skipping..."
             continue
@@ -36,21 +34,23 @@ for c in "${CPUS[@]}"; do
         CURRENT_DIR="${BASE_RESULT_DIR}/cpus_${c}_size_${s}"
         mkdir -p "$CURRENT_DIR"
         
+        # --- FIX 1: Define the Job Name variable here so we can reuse it ---
+        JOB_NAME="benchmark_${c}_${s}"
+
         echo "Processing: $c CPUs | Input File: $INPUT_FILE"
 
         for ((i=1; i<=ITERATIONS; i++)); do
             
             cat <<EOF > job.sh
 #!/bin/bash
-#PBS -N benchmark_${c}_${s}
-#PBS -l select=1:ncpus=${c}:mem=2gb -l place=pack:excl
-#PBS -l walltime=00:00:30
+#PBS -N ${JOB_NAME}
+#PBS -l select=1:ncpus=${c}:mem=1gb place=pack:excl
+#PBS -l walltime=00:01:30
 #PBS -q short_HPC4DS
 cd \$PBS_O_WORKDIR
 
-module load mpich-3.2
 # Run MPI with the input file name
-mpirun.actual -n ${c} ${EXECUTABLE} ${INPUT_FILE}
+mpirun -n ${c} ${EXECUTABLE} ${INPUT_FILE}
 EOF
 
             # Submit and grab ID
@@ -67,14 +67,14 @@ EOF
             # Wait for filesystem sync
             sleep 3
 
-            # Move output
-            OUTPUT_FILE="job.sh.o${JOB_NUM}"
+            # --- FIX 2: Look for the file named after the Job Name ---
+            OUTPUT_FILE="${JOB_NAME}.o${JOB_NUM}"
             
             if [ -f "$OUTPUT_FILE" ]; then
                 mv "$OUTPUT_FILE" "${CURRENT_DIR}/run_${i}_${OUTPUT_FILE}"
                 echo "    Finished."
             else
-                echo "    Warning: Output file missing."
+                echo "    Warning: Output file $OUTPUT_FILE missing."
             fi
 
         done
