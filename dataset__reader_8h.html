@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.15.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Parallel Q-Digest: File Members</title>
+<title>Parallel Q-Digest: include/dataset_reader.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -69,7 +69,7 @@ $(function() {
   </div>
 </div>
 <script type="text/javascript">
-$(function(){initNavTree('globals_defs.html','',''); });
+$(function(){initNavTree('dataset__reader_8h.html','',''); });
 </script>
 <div id="container">
 <div id="doc-content">
@@ -94,20 +94,64 @@ $(function(){initNavTree('globals_defs.html','',''); });
 </div>
 </div>
 
+<div class="header">
+  <div class="headertitle"><div class="title">dataset_reader.h File Reference</div></div>
+</div><!--header-->
 <div class="contents">
-<div class="textblock">Here is a list of all macros with links to the files they belong to:</div><ul>
-<li>DATA_SIZE&#160;:&#160;<a class="el" href="test__review_8c.html#af55149bc1f05cf18af067a302e31e3f9">test_review.c</a>, <a class="el" href="omp-implementation_2src_2main_8c.html#af55149bc1f05cf18af067a302e31e3f9">main.c</a></li>
-<li>K&#160;:&#160;<a class="el" href="mpi-implementation_2src_2main_8c.html#a97d832ae23af4f215e801e37e4f94254">main.c</a>, <a class="el" href="test__review_8c.html#a97d832ae23af4f215e801e37e4f94254">test_review.c</a>, <a class="el" href="omp-implementation_2src_2main_8c.html#a97d832ae23af4f215e801e37e4f94254">main.c</a></li>
-<li>LOWER_BOUND&#160;:&#160;<a class="el" href="test__review_8c.html#a44b4de4784f751e71fad94edd351ff41">test_review.c</a>, <a class="el" href="omp-implementation_2src_2main_8c.html#a44b4de4784f751e71fad94edd351ff41">main.c</a></li>
-<li>MAX&#160;:&#160;<a class="el" href="tree__reduce_8c.html#afa99ec4acc4ecb2dc3c2d05da15d0e3f">tree_reduce.c</a>, <a class="el" href="ompcore_8c.html#afa99ec4acc4ecb2dc3c2d05da15d0e3f">ompcore.c</a></li>
-<li>UPPER_BOUND&#160;:&#160;<a class="el" href="test__review_8c.html#a2d37d1eb5ea11e4dbc41c369421c2e45">test_review.c</a>, <a class="el" href="omp-implementation_2src_2main_8c.html#a2d37d1eb5ea11e4dbc41c369421c2e45">main.c</a></li>
+
+<p><a href="dataset__reader_8h_source.html">Go to the source code of this file.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:ab68b4a4340004374f20634acdaf8f855" id="r_ab68b4a4340004374f20634acdaf8f855"><td class="memItemLeft" align="right" valign="top">int *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab68b4a4340004374f20634acdaf8f855">read_ints_from_file</a> (const char *filename, int *count_out)</td></tr>
+</table>
+<a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
+<a id="ab68b4a4340004374f20634acdaf8f855" name="ab68b4a4340004374f20634acdaf8f855"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab68b4a4340004374f20634acdaf8f855">&#9670;&#160;</a></span>read_ints_from_file()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int * read_ints_from_file </td>
+          <td>(</td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>filename</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int *</td>          <td class="paramname"><span class="paramname"><em>count_out</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Reads integers from a file separated by commas (e.g., "10, 20, 30").</p><ul>
+<li><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">filename</td><td>The path to the file. </td></tr>
+    <tr><td class="paramname">count_out</td><td>A pointer to an integer where the function will write the array size. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A pointer to the allocated array, or NULL if failed. </dd></dl>
+</li>
 </ul>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
+<div id="page-nav" class="page-nav-panel">
+<div id="page-nav-resize-handle"></div>
+<div id="page-nav-tree">
+<div id="page-nav-contents">
+</div><!-- page-nav-contents -->
+</div><!-- page-nav-tree -->
+</div><!-- page-nav -->
 </div><!-- container -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a href="dataset__reader_8h.html">dataset_reader.h</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.15.0 </li>
   </ul>
 </div>

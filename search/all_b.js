@@ -7,6 +7,6 @@ var searchData=
   ['load_20balancing_4',['Load balancing',['../dir_cb97de7279c00998c4e56b74fc9b6627.html#autotoc_md8',1,'']]],
   ['log_5f2_5fceil_5',['log_2_ceil',['../qcore_8c.html#a54a31f38410c0938070c6417970f8122',1,'log_2_ceil(size_t n):&#160;qcore.c'],['../qcore_8h.html#a54a31f38410c0938070c6417970f8122',1,'log_2_ceil(size_t n):&#160;qcore.c']]],
   ['logger_6',['logger',['../namespacegenerate__dataset.html#aa995f4a8e0d2723288def4dfad89552d',1,'generate_dataset']]],
-  ['lower_5fbound_7',['LOWER_BOUND',['../mpi-implementation_2src_2main_8c.html#a44b4de4784f751e71fad94edd351ff41',1,'LOWER_BOUND:&#160;main.c'],['../test__review_8c.html#a44b4de4784f751e71fad94edd351ff41',1,'LOWER_BOUND:&#160;test_review.c'],['../omp-implementation_2src_2main_8c.html#a44b4de4784f751e71fad94edd351ff41',1,'LOWER_BOUND:&#160;main.c']]],
+  ['lower_5fbound_7',['LOWER_BOUND',['../test__review_8c.html#a44b4de4784f751e71fad94edd351ff41',1,'LOWER_BOUND:&#160;test_review.c'],['../omp-implementation_2src_2main_8c.html#a44b4de4784f751e71fad94edd351ff41',1,'LOWER_BOUND:&#160;main.c']]],
   ['lower_5fbound_8',['lower_bound',['../structQDigestNode.html#a187a6c54efe756b57a6e3e93196f0adc',1,'QDigestNode']]]
 ];

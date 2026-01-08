@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['shuffle_0',['shuffle',['../test__utils_8c.html#a0cf70f672114db29e3c6e0b23f608cf8',1,'shuffle(DAItem *array, size_t n):&#160;test_utils.c'],['../test__utils_8h.html#a0cf70f672114db29e3c6e0b23f608cf8',1,'shuffle(DAItem *array, size_t n):&#160;test_utils.c'],['../test_8c.html#a0cf70f672114db29e3c6e0b23f608cf8',1,'shuffle(DAItem *array, size_t n):&#160;test.c']]],
-  ['swap_5fq_1',['swap_q',['../qcore_8c.html#adb5adf5e7db16ecae94162ffe3700316',1,'swap_q(struct QDigest *a, struct QDigest *b):&#160;qcore.c'],['../qcore_8h.html#adb5adf5e7db16ecae94162ffe3700316',1,'swap_q(struct QDigest *a, struct QDigest *b):&#160;qcore.c']]]
+  ['read_5fints_5ffrom_5ffile_0',['read_ints_from_file',['../dataset__reader_8c.html#ab68b4a4340004374f20634acdaf8f855',1,'read_ints_from_file(const char *filename, int *count_out):&#160;dataset_reader.c'],['../dataset__reader_8h.html#ab68b4a4340004374f20634acdaf8f855',1,'read_ints_from_file(const char *filename, int *count_out):&#160;dataset_reader.c']]]
 ];
