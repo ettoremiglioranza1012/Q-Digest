@@ -1,0 +1,6 @@
+[rank 0] Reading from file: ./src/dataset-generator/datasets/size4000000.txt
+First entry: 1332582257
+Total entries read: 4000000
+[rank 0] Data distributed correctly!
+[rank 0] Elapsed time = 1.183258e+01 seconds
+The median of the distribution is 18446744071612398966
