@@ -19,7 +19,7 @@ var generate__dataset_8py =
     [ "generate_dataset.help", "namespacegenerate__dataset.html#a767f64e005b4ccb14afdbf975355eb30", null ],
     [ "generate_dataset.level", "namespacegenerate__dataset.html#a847ac5973abc432cdf4ef789502ebce9", null ],
     [ "generate_dataset.logger", "namespacegenerate__dataset.html#aa995f4a8e0d2723288def4dfad89552d", null ],
-    [ "generate_dataset.max_uint32", "namespacegenerate__dataset.html#a6368a21ae48707a640660a17fe7a7018", null ],
+    [ "generate_dataset.max_int32", "namespacegenerate__dataset.html#a381dd7c98897e31c97c91ae33315d9d8", null ],
     [ "generate_dataset.mean", "namespacegenerate__dataset.html#ae40096da42eefd5c127caf131818a207", null ],
     [ "generate_dataset.metavar", "namespacegenerate__dataset.html#a8a119c415093d3ea9819d6a68cf88b22", null ],
     [ "generate_dataset.nargs", "namespacegenerate__dataset.html#a11506c830af50161067c2edd0bded5e2", null ],
