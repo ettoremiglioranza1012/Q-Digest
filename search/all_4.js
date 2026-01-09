@@ -17,10 +17,12 @@ var searchData=
   ['dest_5fdir_5fpath_14',['dest_dir_path',['../namespacegenerate__dataset.html#aa0592a28aa1d7d8470ef421cad8b8e0c',1,'generate_dataset']]],
   ['digest_20parallel_20implementation_15',['Q-Digest Parallel Implementation',['../md_README.html',1,'']]],
   ['dir_5fpath_16',['dir_path',['../namespacegenerate__dataset.html#a9e33031fb52acfcb0d8596bbf69630b1',1,'generate_dataset']]],
-  ['dist_17',['dist',['../namespacegenerate__dataset.html#adad571fb53cf800e7e384a55b1758d7d',1,'generate_dataset']]],
-  ['distribute_5fdata_5farray_18',['distribute_data_array',['../tree__reduce_8h.html#abf7d150453af22c8d7e186d46fe89497',1,'distribute_data_array(int *src_values, int *local_buf, int *counts, int *displs, int local_n, int rank, size_t buf_size, MPI_Comm comm):&#160;tree_reduce.c'],['../tree__reduce_8c.html#abf7d150453af22c8d7e186d46fe89497',1,'distribute_data_array(int *src_values, int *local_buf, int *counts, int *displs, int local_n, int rank, size_t buf_size, MPI_Comm comm):&#160;tree_reduce.c']]],
-  ['distribution_5fquantiles_19',['distribution_quantiles',['../namespacegenerate__dataset.html#a94302a14596a0d1271cba428cf29c067',1,'generate_dataset']]],
-  ['docs_20',['Docs',['../md_README.html#autotoc_md13',1,'']]],
-  ['dynamic_5farray_2ec_21',['dynamic_array.c',['../dynamic__array_8c.html',1,'']]],
-  ['dynamic_5farray_2eh_22',['dynamic_array.h',['../dynamic__array_8h.html',1,'']]]
+  ['directory_20guide_17',['Directory guide',['../md_README.html#autotoc_md15',1,'']]],
+  ['dist_18',['dist',['../namespacegenerate__dataset.html#adad571fb53cf800e7e384a55b1758d7d',1,'generate_dataset']]],
+  ['distribute_5fdata_5farray_19',['distribute_data_array',['../tree__reduce_8h.html#abf7d150453af22c8d7e186d46fe89497',1,'distribute_data_array(int *src_values, int *local_buf, int *counts, int *displs, int local_n, int rank, size_t buf_size, MPI_Comm comm):&#160;tree_reduce.c'],['../tree__reduce_8c.html#abf7d150453af22c8d7e186d46fe89497',1,'distribute_data_array(int *src_values, int *local_buf, int *counts, int *displs, int local_n, int rank, size_t buf_size, MPI_Comm comm):&#160;tree_reduce.c']]],
+  ['distribution_5fquantiles_20',['distribution_quantiles',['../namespacegenerate__dataset.html#a94302a14596a0d1271cba428cf29c067',1,'generate_dataset']]],
+  ['do_20here_21',['What you can do here',['../md_README.html#autotoc_md12',1,'']]],
+  ['documentation_22',['Documentation',['../md_README.html#autotoc_md14',1,'']]],
+  ['dynamic_5farray_2ec_23',['dynamic_array.c',['../dynamic__array_8c.html',1,'']]],
+  ['dynamic_5farray_2eh_24',['dynamic_array.h',['../dynamic__array_8h.html',1,'']]]
 ];

@@ -42,7 +42,9 @@ var NAVTREEINDEX0 =
 "md_README.html":[1],
 "md_README.html#autotoc_md12":[1,0],
 "md_README.html#autotoc_md13":[1,1],
-"md_README.html#autotoc_md14":[1,1,0],
+"md_README.html#autotoc_md14":[1,2],
+"md_README.html#autotoc_md15":[1,3],
+"md_README.html#autotoc_md16":[1,4],
 "md_serial-implementation_2INSTRUCTIONS.html":[0],
 "md_serial-implementation_2INSTRUCTIONS.html#autotoc_md4":[0,0],
 "md_serial-implementation_2INSTRUCTIONS.html#autotoc_md5":[0,1],
@@ -247,7 +249,5 @@ var NAVTREEINDEX0 =
 "test__utils_8h.html#a7a90fbb36c8e3349474f59e2bf57037c":[4,0,0,5,2],
 "test__utils_8h.html#ab143465e855981ccbba866dafb403919":[4,0,0,5,0],
 "test__utils_8h.html#ab80f7ac8c5a4415a19d4d7f796532163":[4,0,0,5,6],
-"test__utils_8h_source.html":[4,0,0,5],
-"tree__reduce_8c.html":[4,0,1,1,2],
-"tree__reduce_8c.html#a3d00d5eea894594f30fa7e537552d6ec":[4,0,1,1,2,4]
+"test__utils_8h_source.html":[4,0,0,5]
 };

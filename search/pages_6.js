@@ -1,7 +1,5 @@
 var searchData=
 [
-  ['implementation_0',['Implementation',['../dir_cb97de7279c00998c4e56b74fc9b6627.html#autotoc_md7',1,'MPI Implementation'],['../md_README.html',1,'Q-Digest Parallel Implementation']]],
-  ['instruction_20to_20run_20first_20version_20of_20mpi_1',['Instruction to run first version of MPI',['../dir_cb97de7279c00998c4e56b74fc9b6627.html#autotoc_md6',1,'']]],
-  ['instructions_20for_20testing_2',['Instructions for testing',['../md_serial-implementation_2INSTRUCTIONS.html',1,'']]],
-  ['issues_3',['Potential issues',['../dir_cb97de7279c00998c4e56b74fc9b6627.html#autotoc_md9',1,'']]]
+  ['generator_0',['Dataset generator',['../dir_976b980c1223a1395181c8492801b08c.html#autotoc_md0',1,'']]],
+  ['guide_1',['Directory guide',['../md_README.html#autotoc_md15',1,'']]]
 ];

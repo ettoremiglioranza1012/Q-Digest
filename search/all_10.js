@@ -10,5 +10,6 @@ var searchData=
   ['queue_7',['queue',['../structqueue.html',1,'']]],
   ['queue_2ec_8',['queue.c',['../queue_8c.html',1,'']]],
   ['queue_2eh_9',['queue.h',['../queue_8h.html',1,'']]],
-  ['queuenode_10',['queueNode',['../structqueueNode.html',1,'']]]
+  ['queuenode_10',['queueNode',['../structqueueNode.html',1,'']]],
+  ['quickstart_11',['Build &amp;amp; test quickstart',['../md_README.html#autotoc_md13',1,'']]]
 ];

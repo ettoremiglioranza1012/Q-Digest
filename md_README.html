@@ -99,31 +99,59 @@ $(function(){initNavTree('md_README.html','',''); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="autotoc_md11"></a></p>
-<p>This is a test <span class="tt">README</span> for the HPC project.</p>
+<p>High-performance C implementations of the Q-Digest quantile summary used for approximate range queries. The project provides:</p>
+<ul>
+<li>A reference serial core, plus OpenMP and MPI variants for shared-memory and distributed-memory execution.</li>
+<li>Supporting utilities for dataset generation, benchmarking scripts, and reproducibility artifacts.</li>
+<li>Doxygen documentation.</li>
+</ul>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md12"></a>
-Building the project</h1>
-<p>Run <span class="tt">make help</span> to check all the options available to build the project.</p>
-<p><b>DISCLAIMER</b>: not all make functionalities have been tested. Those known to be working are:</p>
-<ol type="1">
-<li><span class="tt">make help</span></li>
-<li><span class="tt">make clean</span> -&gt; removes the <span class="tt">lib</span>, <span class="tt">bin</span>, and <span class="tt">build</span> directories</li>
-<li><span class="tt">make library</span> -&gt; builds the library</li>
-<li><span class="tt">make mpi</span> -&gt; builds the MPI parallel program</li>
-<li><span class="tt">make docs</span> -&gt; builds the documentation in docs/doxygen.</li>
-<li><span class="tt">make serial-test-core</span> -&gt; builds the serial qcore regression suite in <span class="tt">bin/serial-test_core</span></li>
-<li><span class="tt">make serial-test-all</span> -&gt; builds the comprehensive serial test driver in <span class="tt">bin/serial-test_all</span></li>
-<li><span class="tt">make serial-test-queue</span> -&gt; builds the standalone queue test in <span class="tt">bin/serial-test_queue</span></li>
-<li><span class="tt">make serial-test-serialization</span> -&gt; builds the serialization-focused test binary</li>
-<li><span class="tt">make serial-run-local-test</span> -&gt; runs the serial core test with <span class="tt">mpirun -n 1</span> (depends on target 6)</li>
-</ol>
+What you can do here</h1>
+<ul>
+<li>Build the core library and run unit/regression tests for correctness.</li>
+<li>Compare serial vs OpenMP vs MPI performance by generating your own datasets and benchmark scripts.</li>
+<li>Regenerate datasets and documentation to extend or validate the original experiments.</li>
+</ul>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md13"></a>
-Docs</h1>
-<p>The quickest way to build the docs and explore them is to run <span class="tt">make docs</span> and then open the <span class="tt">docs/doxygen/html/index.html</span> file in a web browser to explore the documentation interactively.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md14"></a>
-WARNING</h2>
-<blockquote class="doxtable">
-<p>Make sure to include the directories that should be included for documentation purposes as arguments to the <span class="tt">INPUT</span> field inside the <span class="tt">Doxyfile</span>. </p>
-</blockquote>
+Build &amp; test quickstart</h1>
+<p>Run <span class="tt">make help</span> to see all available targets. Common ones:</p>
+<ol type="1">
+<li><span class="tt">make clean</span> – remove <span class="tt">lib</span>, <span class="tt">bin</span>, and <span class="tt">build</span>.</li>
+<li><span class="tt">make library</span> – build the serial/static library.</li>
+<li><span class="tt">make mpi</span> – build the MPI parallel program.</li>
+<li><span class="tt">make docs</span> – generate Doxygen HTML in <span class="tt">docs/doxygen</span>.</li>
+<li><span class="tt">make serial-test-core</span> – build serial core regression suite (<span class="tt">bin/serial-test_core</span>).</li>
+<li><span class="tt">make serial-test-all</span> – build the comprehensive serial test driver (<span class="tt">bin/serial-test_all</span>).</li>
+<li><span class="tt">make serial-test-queue</span> – build the standalone queue test (<span class="tt">bin/serial-test_queue</span>).</li>
+<li><span class="tt">make serial-test-serialization</span> – build the serialization-focused test binary.</li>
+<li><span class="tt">make serial-run-local-test</span> – run the serial core test with <span class="tt">mpirun -n 1</span> (needs target 5).</li>
+</ol>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md14"></a>
+Documentation</h1>
+<p>Documentation is available online through GH pages and is compiled automatically through GH actions whenever a a new push or merge on the <span class="tt"><a class="el" href="test__qcore_8c.html#a840291bc02cba5474a4cb46a9b9566fe">main</a></span> branch is carried out.</p>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md15"></a>
+Directory guide</h1>
+<div class="fragment"><div class="line">.</div>
+<div class="line">├─ README.md                  # Project overview (this file)</div>
+<div class="line">├─ Makefile                   # Top-level build targets</div>
+<div class="line">├─ include/                   # Public headers (core data structures and utils)</div>
+<div class="line">├─ src/                       # Serial implementation and dataset generator</div>
+<div class="line">│  └─ dataset-generator/      # Scripts to create synthetic datasets</div>
+<div class="line">├─ mpi-implementation/        # MPI version (sources, headers, build artifacts)</div>
+<div class="line">├─ omp-implementation/        # OpenMP version (sources, headers, build rules)</div>
+<div class="line">├─ serial-implementation/     # Serial tests, binaries, and submission scripts</div>
+<div class="line">├─ results/                   # Benchmark outputs grouped by run and CPU count</div>
+<div class="line">├─ docs/                      # Doxygen config and generated artifacts</div>
+<div class="line">├─ run_benchmark.sh           # Helper script to execute performance suites and submit jobs on cluster</div>
+<div class="line">├─ submit_cluster.sh          # Example batch submission script</div>
+<div class="line">├─ Doxyfile                   # Documentation configuration</div>
+<div class="line">└─ LICENSE.md                 # License info</div>
+</div><!-- fragment --><h1 class="doxsection"><a class="anchor" id="autotoc_md16"></a>
+Notes</h1>
+<ul>
+<li>MPI and OpenMP builds expect appropriate toolchains and <span class="tt">mpirun</span> available on your system.</li>
+<li>Benchmark directories contain captured runs; regenerate via <span class="tt">run_benchmark.sh</span> if you change implementations. </li>
+</ul>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
 </div><!-- doc-content -->
