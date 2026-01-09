@@ -1,0 +1,9 @@
+[rank 0] Reading from file: ./src/dataset-generator/datasets/size8000000.txt
+First entry: 1332582257
+Total entries read: 8000000
+[rank 3] Gathered 2000000 data points
+[rank 1] Gathered 2000000 data points
+[rank 0] Data distributed correctly!
+[rank 2] Gathered 2000000 data points
+[rank 0] Elapsed time = 6.124734e+00 seconds
+The median of the distribution is 18446744071578845068

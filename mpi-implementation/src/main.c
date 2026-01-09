@@ -78,8 +78,12 @@ int main(int argc, char **argv)
         MPI_COMM_WORLD
     );
 
-    if (rank == 0)
+    if (rank == 0) {
+        printf("[rank %d] Data distributed correctly!\n", rank);
         free(buf); // Rank 0 can free the big buffer now, it's been scattered
+    } else {
+        printf("[rank %d] Gathered %d data points\n", rank, local_n);
+    }
 
     size_t local_upper_bound = _get_curr_upper_bound(local_buf, local_n);
     size_t global_upper_bound;
@@ -95,7 +99,10 @@ int main(int argc, char **argv)
     local_elapsed = local_finish - local_start;
     MPI_Reduce(&local_elapsed, &elapsed, 1, MPI_DOUBLE, MPI_MAX, 0, MPI_COMM_WORLD);
 
+    // TODO: decide if remove MPI_Barrier, I added it because I wanted to make sure that
+    // the final reduced tree was completed.
     MPI_Barrier(MPI_COMM_WORLD);
+    // TODO: decide if percentile computation should be considered as part of the timed portion!
     if (rank == 0) {
         printf("[rank %d] Elapsed time = %e seconds\n", rank, elapsed);
         printf("The median of the distribution is %zu\n", percentile(q, 0.5));

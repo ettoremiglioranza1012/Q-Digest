@@ -1,0 +1,37 @@
+[rank 0] Reading from file: ./src/dataset-generator/datasets/size16000000.txt
+First entry: 1332582257
+Total entries read: 16000000
+[rank 5] Gathered 500000 data points
+[rank 6] Gathered 500000 data points
+[rank 7] Gathered 500000 data points
+[rank 8] Gathered 500000 data points
+[rank 9] Gathered 500000 data points
+[rank 10] Gathered 500000 data points
+[rank 11] Gathered 500000 data points
+[rank 12] Gathered 500000 data points
+[rank 13] Gathered 500000 data points
+[rank 14] Gathered 500000 data points
+[rank 15] Gathered 500000 data points
+[rank 16] Gathered 500000 data points
+[rank 17] Gathered 500000 data points
+[rank 18] Gathered 500000 data points
+[rank 19] Gathered 500000 data points
+[rank 20] Gathered 500000 data points
+[rank 21] Gathered 500000 data points
+[rank 22] Gathered 500000 data points
+[rank 23] Gathered 500000 data points
+[rank 24] Gathered 500000 data points
+[rank 25] Gathered 500000 data points
+[rank 26] Gathered 500000 data points
+[rank 27] Gathered 500000 data points
+[rank 28] Gathered 500000 data points
+[rank 29] Gathered 500000 data points
+[rank 30] Gathered 500000 data points
+[rank 31] Gathered 500000 data points
+[rank 1] Gathered 500000 data points
+[rank 2] Gathered 500000 data points
+[rank 3] Gathered 500000 data points
+[rank 0] Data distributed correctly!
+[rank 4] Gathered 500000 data points
+[rank 0] Elapsed time = 1.362104e+00 seconds
+The median of the distribution is 18446744071578845068
