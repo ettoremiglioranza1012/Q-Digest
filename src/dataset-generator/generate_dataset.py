@@ -50,11 +50,11 @@ result = np.array([])
 # instantiate the generator object
 generator = np.random.default_rng(seed=seed)
 
-max_uint32 = np.iinfo(np.uint32).max
+max_int32 = np.iinfo(np.int32).max
 # case when dist is not set from CLI
 if not args.dist:
     logger.info(f"Generating {size} random integers from uniform distribution")
-    result = generator.integers(low=0, high=max_uint32, size=size, dtype=np.uint32)
+    result = generator.integers(low=0, high=max_int32, size=size, dtype=np.uint32)
 # case when dist is set
 else:
     # generate based on chosen distribution, no need to check for default case
