@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "../include/dataset_reader.h"
 
 /**
  * Reads integers from a file separated by commas (e.g., "10, 20, 30").
