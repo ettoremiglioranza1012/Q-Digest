@@ -54,4 +54,4 @@ a new push or merge on the `main` branch is carried out.
 ## Notes
 
 - MPI and OpenMP builds expect appropriate toolchains and `mpirun` available on your system.
-- Benchmark directories contain captured runs; regenerate via `run_benchmark.sh` if you change implementations.
+- Benchmark directories contain captured runs; can be regenerate via `run_benchmark.sh` when implementation is changed.
