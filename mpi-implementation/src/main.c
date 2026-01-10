@@ -1,16 +1,10 @@
 #include <mpi.h>
-#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include "../include/tree_reduce.h"
 #include "../../include/memory_utils.h"
 #include "../../include/dataset_reader.h"
 
-
-/* NOTE: These are test parameters and should be removed in 
- * favor of proper user-based I/O */
-// how many numbers to generate
-// also the size of the array (vector) that stores them in process 0
 #define K 200
 
 int main(int argc, char **argv) 
