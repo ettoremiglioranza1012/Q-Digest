@@ -1,4 +1,10 @@
-# Instructions for testing
+# Instructions for testing (LEGACY)
+
+> [!WARNING]
+> This document is kept only for documenting the steps we took as we
+> started first working on the project. As of v1.0 these commands might
+> not work, although it does not impact the main aim of the project
+> (i.e., parallelization of a serial algorithm).
 
 To test the implementation use the dedicated test module.
 
