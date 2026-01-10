@@ -1,4 +1,32 @@
-# NOTE: keep the sample size to less than 1000000000 to avoid the program from getting killed by the OS
+"""
+Dataset Generator Script
+
+This script generates datasets of random integers based on various probability distributions.
+It utilizes NumPy to create synthetic data for benchmarking or testing purposes, such as
+verifying the accuracy of quantile estimation algorithms.
+
+Usage:
+    python generate_dataset.py [options]
+
+Arguments:
+    --n <int>           The number of integers to generate (default: 1000).
+    --dist <str>        The probability distribution to use. 
+                        Valid choices: 'gaussian', 'exponential', 'poisson', 'geometric'.
+                        If not specified, a uniform distribution (0 to max int32) is used.
+    --seed <int>        The seed for the random number generator to ensure reproducibility (default: 121).
+    --save              If present, saves the generated dataset to a file inside a 'datasets' subdirectory.
+                        The filename will follow the format 'size<N>.txt'.
+    --quantiles <float> A space-separated list of floats between 0 and 1 indicating which quantiles 
+                        to compute and print for verification (default: 0.0, 0.25, 0.5, 0.75, 1.0).
+
+Outputs:
+    - Logs the generation process and the calculated true quantiles of the generated data to the console.
+    - If '--save' is used, writes the integers (comma-separated) to a text file.
+
+Note:
+    keep the sample size to less than 1000000000 to avoid the program from
+    getting killed by the OS.
+"""
 
 import argparse
 import numpy as np
