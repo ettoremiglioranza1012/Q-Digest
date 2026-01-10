@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['parallel_20implementation_0',['Q-Digest Parallel Implementation',['../md_README.html',1,'']]],
-  ['potential_20issues_1',['Potential issues',['../dir_cb97de7279c00998c4e56b74fc9b6627.html#autotoc_md9',1,'']]]
+  ['q_20digest_20parallel_20implementation_0',['Q-Digest Parallel Implementation',['../md_README.html',1,'']]],
+  ['qcore_1',['Results of testing on QCore',['../md_serial-implementation_2INSTRUCTIONS.html#autotoc_md4',1,'']]],
+  ['quickstart_2',['Build &amp;amp; test quickstart',['../md_README.html#autotoc_md8',1,'']]]
 ];

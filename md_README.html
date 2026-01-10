@@ -98,21 +98,21 @@ $(function(){initNavTree('md_README.html','',''); });
   <div class="headertitle"><div class="title">Q-Digest Parallel Implementation </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md11"></a></p>
+<div class="textblock"><p><a class="anchor" id="autotoc_md6"></a></p>
 <p>High-performance C implementations of the Q-Digest quantile summary used for approximate range queries. The project provides:</p>
 <ul>
 <li>A reference serial core, plus OpenMP and MPI variants for shared-memory and distributed-memory execution.</li>
 <li>Supporting utilities for dataset generation, benchmarking scripts, and reproducibility artifacts.</li>
 <li>Doxygen documentation.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md12"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md7"></a>
 What you can do here</h1>
 <ul>
 <li>Build the core library and run unit/regression tests for correctness.</li>
 <li>Compare serial vs OpenMP vs MPI performance by generating your own datasets and benchmark scripts.</li>
 <li>Regenerate datasets and documentation to extend or validate the original experiments.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md13"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md8"></a>
 Build &amp; test quickstart</h1>
 <p>Run <span class="tt">make help</span> to see all available targets. Common ones:</p>
 <ol type="1">
@@ -126,10 +126,10 @@ Build &amp; test quickstart</h1>
 <li><span class="tt">make serial-test-serialization</span> – build the serialization-focused test binary.</li>
 <li><span class="tt">make serial-run-local-test</span> – run the serial core test with <span class="tt">mpirun -n 1</span> (needs target 5).</li>
 </ol>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md14"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md9"></a>
 Documentation</h1>
 <p>Documentation is available online through GH pages and is compiled automatically through GH actions whenever a a new push or merge on the <span class="tt"><a class="el" href="test__qcore_8c.html#a840291bc02cba5474a4cb46a9b9566fe">main</a></span> branch is carried out.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md15"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md10"></a>
 Directory guide</h1>
 <div class="fragment"><div class="line">.</div>
 <div class="line">├─ README.md                  # Project overview (this file)</div>
@@ -146,11 +146,11 @@ Directory guide</h1>
 <div class="line">├─ submit_cluster.sh          # Example batch submission script</div>
 <div class="line">├─ Doxyfile                   # Documentation configuration</div>
 <div class="line">└─ LICENSE.md                 # License info</div>
-</div><!-- fragment --><h1 class="doxsection"><a class="anchor" id="autotoc_md16"></a>
+</div><!-- fragment --><h1 class="doxsection"><a class="anchor" id="autotoc_md11"></a>
 Notes</h1>
 <ul>
 <li>MPI and OpenMP builds expect appropriate toolchains and <span class="tt">mpirun</span> available on your system.</li>
-<li>Benchmark directories contain captured runs; regenerate via <span class="tt">run_benchmark.sh</span> if you change implementations. </li>
+<li>Benchmark directories contain captured runs; can be regenerate via <span class="tt">run_benchmark.sh</span> when implementation is changed. </li>
 </ul>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->

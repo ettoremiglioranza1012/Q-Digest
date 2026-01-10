@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['notes_0',['Notes',['../md_README.html#autotoc_md16',1,'']]]
+  ['of_20testing_20on_20qcore_0',['Results of testing on QCore',['../md_serial-implementation_2INSTRUCTIONS.html#autotoc_md4',1,'']]],
+  ['on_20qcore_1',['Results of testing on QCore',['../md_serial-implementation_2INSTRUCTIONS.html#autotoc_md4',1,'']]]
 ];

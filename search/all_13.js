@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['test_20quickstart_0',['Build &amp;amp; test quickstart',['../md_README.html#autotoc_md13',1,'']]],
+  ['test_20quickstart_0',['Build &amp;amp; test quickstart',['../md_README.html#autotoc_md8',1,'']]],
   ['test_2ec_1',['test.c',['../test_8c.html',1,'']]],
   ['test_5fcompress_2',['test_compress',['../test__qcore_8c.html#acd1dfe76806f02c51c5c475816dd5573',1,'test_qcore.c']]],
   ['test_5fexpand_5ftree_3',['test_expand_tree',['../test__qcore_8c.html#adde6a8b5684a999069a0983a85277f5f',1,'test_qcore.c']]],
@@ -19,13 +19,11 @@ var searchData=
   ['test_5fswap_5fq_16',['test_swap_q',['../test__qcore_8c.html#aa634058f5005e62e110a4cefd98f683b',1,'test_qcore.c']]],
   ['test_5futils_2ec_17',['test_utils.c',['../test__utils_8c.html',1,'']]],
   ['test_5futils_2eh_18',['test_utils.h',['../test__utils_8h.html',1,'']]],
-  ['testing_19',['Instructions for testing',['../md_serial-implementation_2INSTRUCTIONS.html',1,'']]],
+  ['testing_20legacy_19',['Instructions for testing (LEGACY)',['../md_serial-implementation_2INSTRUCTIONS.html',1,'']]],
   ['testing_20on_20qcore_20',['Results of testing on QCore',['../md_serial-implementation_2INSTRUCTIONS.html#autotoc_md4',1,'']]],
-  ['to_20run_20first_20version_20of_20mpi_21',['Instruction to run first version of MPI',['../dir_cb97de7279c00998c4e56b74fc9b6627.html#autotoc_md6',1,'']]],
-  ['to_5fstring_22',['to_string',['../qcore_8c.html#a7a79f3bb4cc255b3e9bb54710d805d2d',1,'to_string(struct QDigest *q, char *buf, size_t *length):&#160;qcore.c'],['../qcore_8h.html#aacccef5e606069cbf18e500d337268aa',1,'to_string(struct QDigest *q, char *buf, size_t *buf_length):&#160;qcore.c']]],
-  ['todo_23',['TODO',['../dir_cb97de7279c00998c4e56b74fc9b6627.html#autotoc_md10',1,'']]],
-  ['tree_5freduce_24',['tree_reduce',['../tree__reduce_8h.html#a657b6250731dfe27d1284da101321045',1,'tree_reduce(struct QDigest *q, int comm_size, int rank, MPI_Comm comm):&#160;tree_reduce.c'],['../tree__reduce_8c.html#a657b6250731dfe27d1284da101321045',1,'tree_reduce(struct QDigest *q, int comm_size, int rank, MPI_Comm comm):&#160;tree_reduce.c']]],
-  ['tree_5freduce_2ec_25',['tree_reduce.c',['../tree__reduce_8c.html',1,'']]],
-  ['tree_5freduce_2eh_26',['tree_reduce.h',['../tree__reduce_8h.html',1,'']]],
-  ['type_27',['type',['../namespacegenerate__dataset.html#a9cb08925f895eed805f720e345d79ac5',1,'generate_dataset']]]
+  ['to_5fstring_21',['to_string',['../qcore_8c.html#a7a79f3bb4cc255b3e9bb54710d805d2d',1,'to_string(struct QDigest *q, char *buf, size_t *length):&#160;qcore.c'],['../qcore_8h.html#aacccef5e606069cbf18e500d337268aa',1,'to_string(struct QDigest *q, char *buf, size_t *buf_length):&#160;qcore.c']]],
+  ['tree_5freduce_22',['tree_reduce',['../tree__reduce_8h.html#a657b6250731dfe27d1284da101321045',1,'tree_reduce(struct QDigest *q, int comm_size, int rank, MPI_Comm comm):&#160;tree_reduce.c'],['../tree__reduce_8c.html#a657b6250731dfe27d1284da101321045',1,'tree_reduce(struct QDigest *q, int comm_size, int rank, MPI_Comm comm):&#160;tree_reduce.c']]],
+  ['tree_5freduce_2ec_23',['tree_reduce.c',['../tree__reduce_8c.html',1,'']]],
+  ['tree_5freduce_2eh_24',['tree_reduce.h',['../tree__reduce_8h.html',1,'']]],
+  ['type_25',['type',['../namespacegenerate__dataset.html#a9cb08925f895eed805f720e345d79ac5',1,'generate_dataset']]]
 ];

@@ -25,16 +25,16 @@
 var NAVTREE =
 [
   [ "Parallel Q-Digest", "index.html", [
-    [ "Instructions for testing", "md_serial-implementation_2INSTRUCTIONS.html", [
+    [ "Instructions for testing (LEGACY)", "md_serial-implementation_2INSTRUCTIONS.html", [
       [ "Results of testing on QCore", "md_serial-implementation_2INSTRUCTIONS.html#autotoc_md4", null ],
       [ "Acknowledgments", "md_serial-implementation_2INSTRUCTIONS.html#autotoc_md5", null ]
     ] ],
     [ "Q-Digest Parallel Implementation", "md_README.html", [
-      [ "What you can do here", "md_README.html#autotoc_md12", null ],
-      [ "Build &amp; test quickstart", "md_README.html#autotoc_md13", null ],
-      [ "Documentation", "md_README.html#autotoc_md14", null ],
-      [ "Directory guide", "md_README.html#autotoc_md15", null ],
-      [ "Notes", "md_README.html#autotoc_md16", null ]
+      [ "What you can do here", "md_README.html#autotoc_md7", null ],
+      [ "Build &amp; test quickstart", "md_README.html#autotoc_md8", null ],
+      [ "Documentation", "md_README.html#autotoc_md9", null ],
+      [ "Directory guide", "md_README.html#autotoc_md10", null ],
+      [ "Notes", "md_README.html#autotoc_md11", null ]
     ] ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],

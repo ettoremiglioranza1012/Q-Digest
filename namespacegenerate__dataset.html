@@ -133,7 +133,35 @@ Variables</h2></td></tr>
 <tr class="memitem:aa06faa0d0dae44ebe44bec50e9f36d57" id="r_aa06faa0d0dae44ebe44bec50e9f36d57"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa06faa0d0dae44ebe44bec50e9f36d57">fmt</a></td></tr>
 <tr class="memitem:a94302a14596a0d1271cba428cf29c067" id="r_a94302a14596a0d1271cba428cf29c067"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a94302a14596a0d1271cba428cf29c067">distribution_quantiles</a> = np.quantile(<a class="el" href="#ac1d87eadfd12d0d5156bddad83346351">result</a>, <a class="el" href="#ad1fc435e9d46dcf2824019af91636b2f">quantiles</a>).astype(np.uint32)</td></tr>
 </table>
-<a name="doc-var-members" id="doc-var-members"></a><h2 id="header-doc-var-members" class="groupheader">Variable Documentation</h2>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
+<div class="textblock"><pre class="fragment">Dataset Generator Script
+
+This script generates datasets of random integers based on various probability distributions.
+It utilizes NumPy to create synthetic data for benchmarking or testing purposes, such as
+verifying the accuracy of quantile estimation algorithms.
+
+Usage:
+    python generate_dataset.py [options]
+
+Arguments:
+    --n &lt;int&gt;           The number of integers to generate (default: 1000).
+    --dist &lt;str&gt;        The probability distribution to use. 
+                        Valid choices: 'gaussian', 'exponential', 'poisson', 'geometric'.
+                        If not specified, a uniform distribution (0 to max int32) is used.
+    --seed &lt;int&gt;        The seed for the random number generator to ensure reproducibility (default: 121).
+    --save              If present, saves the generated dataset to a file inside a 'datasets' subdirectory.
+                        The filename will follow the format 'size&lt;N&gt;.txt'.
+    --quantiles &lt;float&gt; A space-separated list of floats between 0 and 1 indicating which quantiles 
+                        to compute and print for verification (default: 0.0, 0.25, 0.5, 0.75, 1.0).
+
+Outputs:
+    - Logs the generation process and the calculated true quantiles of the generated data to the console.
+    - If '--save' is used, writes the integers (comma-separated) to a text file.
+
+Note:
+    keep the sample size to less than 1000000000 to avoid the program from
+    getting killed by the OS.
+</pre> </div><a name="doc-var-members" id="doc-var-members"></a><h2 id="header-doc-var-members" class="groupheader">Variable Documentation</h2>
 <a id="a95f5ef1e26d0b7114897074dd874c5aa" name="a95f5ef1e26d0b7114897074dd874c5aa"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a95f5ef1e26d0b7114897074dd874c5aa">&#9670;&#160;</a></span>action</h2>
 

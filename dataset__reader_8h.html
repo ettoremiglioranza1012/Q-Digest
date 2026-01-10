@@ -104,6 +104,7 @@ $(function(){initNavTree('dataset__reader_8h.html','',''); });
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:ab68b4a4340004374f20634acdaf8f855" id="r_ab68b4a4340004374f20634acdaf8f855"><td class="memItemLeft" align="right" valign="top">int *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab68b4a4340004374f20634acdaf8f855">read_ints_from_file</a> (const char *filename, int *count_out)</td></tr>
+<tr class="memdesc:ab68b4a4340004374f20634acdaf8f855"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads integers from a text file separated by commas.  <br /></td></tr>
 </table>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
 <a id="ab68b4a4340004374f20634acdaf8f855" name="ab68b4a4340004374f20634acdaf8f855"></a>
@@ -124,7 +125,19 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Reads integers from a file separated by commas (e.g., "10, 20, 30").</p><ul>
+
+<p>Reads integers from a text file separated by commas. </p>
+<ul>
+<li>This function parses a file containing integers separated by delimiters (such as commas, spaces, or newlines). It allocates memory dynamically to store the integers. The caller is responsible for freeing the allocated memory.</li>
+<li><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">filename</td><td>The path to the file to be read. </td></tr>
+    <tr><td class="paramname">count_out</td><td>A pointer to an integer where the function will write the total number of elements read. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A pointer to the dynamically allocated array of integers, or NULL if the file could not be opened or memory allocation failed.</dd></dl>
+Reads integers from a file separated by commas (e.g., "10, 20, 30").</li>
 <li><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">filename</td><td>The path to the file. </td></tr>
