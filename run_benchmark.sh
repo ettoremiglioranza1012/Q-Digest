@@ -9,7 +9,7 @@ DATA_DIR="./src/dataset-generator/datasets/"
 SIZES=(1000000 2000000 4000000 8000000 16000000)
 
 # CPU counts
-CPUS=(1 2 4 8 16 32 64)
+CPUS=(2 4 8 16 32 64)
 
 ITERATIONS=10
 
@@ -44,7 +44,7 @@ for c in "${CPUS[@]}"; do
             cat <<EOF > job.sh
 #!/bin/bash
 #PBS -N ${JOB_NAME}
-#PBS -l select=2:ncpus=${c}:mem=1gb -l place=pack:excl
+#PBS -l select=2:ncpus=${c}:mem=1gb -l place=scatter
 #PBS -l walltime=00:01:30
 #PBS -q short_HPC4DS
 cd \$PBS_O_WORKDIR
