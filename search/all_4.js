@@ -2,7 +2,7 @@ var searchData=
 [
   ['daitem_0',['DAItem',['../dynamic__array_8h.html#a56baf61b45eacda7280c67443d51816b',1,'dynamic_array.h']]],
   ['data_1',['data',['../structArray.html#a0f3ea1bec0f6c32c1b1a83d543ae7507',1,'Array']]],
-  ['data_5fsize_2',['DATA_SIZE',['../test__review_8c.html#af55149bc1f05cf18af067a302e31e3f9',1,'DATA_SIZE:&#160;test_review.c'],['../omp-implementation_2src_2main_8c.html#af55149bc1f05cf18af067a302e31e3f9',1,'DATA_SIZE:&#160;main.c']]],
+  ['data_5fsize_2',['DATA_SIZE',['../omp-implementation_2src_2main_8c.html#af55149bc1f05cf18af067a302e31e3f9',1,'main.c']]],
   ['dataset_20generator_3',['Dataset generator',['../dir_976b980c1223a1395181c8492801b08c.html#autotoc_md0',1,'']]],
   ['dataset_5fname_4',['dataset_name',['../namespacegenerate__dataset.html#a98620c5338aa3434a79bb071cbbe6ca5',1,'generate_dataset']]],
   ['dataset_5freader_2ec_5',['dataset_reader.c',['../dataset__reader_8c.html',1,'']]],

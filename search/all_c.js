@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['main_0',['main',['../test__qcore_8c.html#a840291bc02cba5474a4cb46a9b9566fe',1,'main(void):&#160;test_qcore.c'],['../mpi-implementation_2src_2main_8c.html#a3c04138a5bfe5d72780bb7e82a18e627',1,'main(int argc, char **argv):&#160;main.c'],['../test__review_8c.html#a840291bc02cba5474a4cb46a9b9566fe',1,'main(void):&#160;test_review.c'],['../omp-implementation_2src_2main_8c.html#a0ddf1224851353fc92bfbff6f499fa97',1,'main(int argc, char *argv[]):&#160;main.c']]],
+  ['main_0',['main',['../test__qcore_8c.html#a840291bc02cba5474a4cb46a9b9566fe',1,'main(void):&#160;test_qcore.c'],['../mpi-implementation_2src_2main_8c.html#a3c04138a5bfe5d72780bb7e82a18e627',1,'main(int argc, char **argv):&#160;main.c'],['../omp-implementation_2src_2main_8c.html#a0ddf1224851353fc92bfbff6f499fa97',1,'main(int argc, char *argv[]):&#160;main.c']]],
   ['main_2ec_1',['main.c',['../mpi-implementation_2src_2main_8c.html',1,'(Global Namespace)'],['../omp-implementation_2src_2main_8c.html',1,'(Global Namespace)']]],
   ['max_2',['MAX',['../tree__reduce_8c.html#afa99ec4acc4ecb2dc3c2d05da15d0e3f',1,'MAX:&#160;tree_reduce.c'],['../ompcore_8c.html#afa99ec4acc4ecb2dc3c2d05da15d0e3f',1,'MAX:&#160;ompcore.c']]],
   ['max_5fint32_3',['max_int32',['../namespacegenerate__dataset.html#a381dd7c98897e31c97c91ae33315d9d8',1,'generate_dataset']]],
