@@ -142,7 +142,7 @@ void compress(struct QDigest *q, struct QDigestNode *n, int level, int l_max, si
             par->count = node_and_sibling_count(par);
 
             if (par->left) {
-                par->left->count = 0;
+                par->left->count = 0; 
                 delete_node_if_needed(q, par->left, level, l_max);
             }
             if (par->right) {
