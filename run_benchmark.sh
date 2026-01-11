@@ -44,7 +44,7 @@ for c in "${CPUS[@]}"; do
             cat <<EOF > job.sh
 #!/bin/bash
 #PBS -N ${JOB_NAME}
-#PBS -l select=1:ncpus=${c}:mem=1gb -l place=pack:excl
+#PBS -l select=2:ncpus=${c}:mem=1gb -l place=pack:excl
 #PBS -l walltime=00:01:30
 #PBS -q short_HPC4DS
 cd \$PBS_O_WORKDIR
